@@ -1,0 +1,272 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+@font-face {
+  font-family: 'Geist Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist Mono Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2')
+    format('woff2');
+}
+
+/* Semantic roles shared by every route and both appearances. */
+:root {
+  color-scheme: light;
+  --whatsapp: #25d366;
+  --whatsapp-hover: #1fb855;
+  --whatsapp-foreground: #ffffff;
+  --background: #fcfcfa;
+  --foreground: #18201e;
+  --surface: #f2f4f1;
+  --surface-elevated: #ffffff;
+  --surface-muted: #e9ede7;
+  --primary: #d0f568;
+  --primary-foreground: #17220c;
+  --accent: #456515;
+  --muted-foreground: #5c665f;
+  --border: #d8ded6;
+  --border-subtle: #e5e9e2;
+  --input: #7c8978;
+  --ring: #517919;
+  --destructive: #b42332;
+  --indigo: #6650a3;
+  --green: #247445;
+  --accent-soft: #edf3e1;
+  --violet-soft: #efebf6;
+  --shadow-panel: 0 16px 48px -24px #26351d30;
+  --shadow-float: 0 16px 40px #26351d16;
+  --canvas: var(--background);
+  --text: var(--foreground);
+  --secondary: var(--muted-foreground);
+  --muted: var(--muted-foreground);
+  --elevated: var(--surface-elevated);
+  --hover: var(--surface-muted);
+  --lime: var(--accent);
+  --radius: 1rem;
+  --container: min(1280px, calc(100% - 96px));
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 180ms;
+  --motion-normal: 280ms;
+  --section-space: clamp(4.5rem, 8vw, 8rem);
+  --font-sans: 'Geist Variable', Arial, sans-serif;
+  --font-mono: 'Geist Mono Variable', monospace;
+}
+.dark {
+  color-scheme: dark;
+  --background: #0a0d0c;
+  --foreground: #f1f4ee;
+  --surface: #111612;
+  --surface-elevated: #171d18;
+  --surface-muted: #222b23;
+  --primary: #d0f568;
+  --primary-foreground: #17220c;
+  --accent: #c2e879;
+  --muted-foreground: #a3afa4;
+  --border: #303a31;
+  --border-subtle: #232c24;
+  --input: #626e63;
+  --ring: #c2e879;
+  --destructive: #ffadb4;
+  --indigo: #bca8e8;
+  --green: #85dba7;
+  --accent-soft: #202c18;
+  --violet-soft: #24202f;
+  --shadow-panel: 0 16px 48px -24px #0008;
+  --shadow-float: 0 16px 40px #0005;
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--surface-muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --font-sans: 'Geist Variable', Arial, sans-serif;
+  --font-mono: 'Geist Mono Variable', monospace;
+  --shadow-panel: var(--shadow-panel);
+  --shadow-float: var(--shadow-float);
+  --radius-panel: var(--radius);
+  --text-display: clamp(3rem, 6.2vw, 6rem);
+  --text-heading: clamp(2rem, 4vw, 3.75rem);
+  --spacing-section: var(--section-space);
+}
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+  }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  button,
+  summary {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 5px;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+@layer components {
+  .site-container {
+    width: var(--container);
+    margin-inline: auto;
+  }
+  .eyebrow {
+    @apply font-mono text-accent text-xs font-medium;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+  .mono {
+    @apply font-mono;
+  }
+  .section {
+    padding-block: var(--section-space);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .display {
+    @apply text-display font-medium;
+    letter-spacing: -0.065em;
+    line-height: 1.06;
+    margin: 24px 0;
+  }
+  .h2 {
+    @apply text-heading font-medium;
+    letter-spacing: -0.055em;
+    line-height: 1.12;
+    margin: 18px 0 24px;
+  }
+  .lede {
+    @apply text-muted-foreground text-base leading-relaxed;
+    max-width: 620px;
+  }
+  .button {
+    @apply inline-flex items-center justify-center gap-4 min-h-12 px-6 py-3 rounded-lg border border-border text-sm font-medium;
+    transition:
+      background var(--motion-fast),
+      transform var(--motion-fast),
+      border-color var(--motion-fast);
+  }
+  .button:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .button.primary {
+    @apply bg-primary text-primary-foreground;
+    border-color: transparent;
+  }
+  .button.primary:hover {
+    background: color-mix(in srgb, var(--primary) 85%, white);
+  }
+  .button.ghost {
+    @apply bg-surface-elevated;
+  }
+  .text-link {
+    @apply inline-flex items-center gap-3 text-sm font-medium;
+    min-height: 44px;
+    border-bottom: 1px solid var(--border);
+  }
+  .text-link:hover {
+    color: var(--accent);
+  }
+  .section-head {
+    @apply flex flex-col lg:flex-row justify-between gap-8 lg:items-end mb-12;
+  }
+  .section-head .h2 {
+    margin-bottom: 0;
+  }
+  .section-head > p {
+    @apply text-muted-foreground text-base leading-relaxed;
+    max-width: 360px;
+    margin: 0;
+  }
+}
+@media (max-width: 1000px) {
+  :root {
+    --container: calc(100% - 48px);
+  }
+}
+@media (max-width: 500px) {
+  :root {
+    --container: calc(100% - 40px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Lucide is the only UI icon family. Brand marks and product artwork are separate. */
+.ui-icon {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  vertical-align: middle;
+  stroke-width: 1.75;
+}
+.product-symbol .ui-icon,
+.manifesto-star .ui-icon,
+.studio-mark .ui-icon {
+  width: 1em;
+  height: 1em;
+}

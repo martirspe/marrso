@@ -1,0 +1,232 @@
+<div class="products">
+  <article id="aloja" class="product cloud-product">
+    <div class="product-top">
+      <span class="product-symbol" aria-hidden="true"
+        ><svg lucideCloud class="ui-icon" aria-hidden="true"></svg></span
+      ><span class="mono">01 / CREACIÓN WEB CON IA</span
+      ><a
+        href="https://alojacloud.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visitar Aloja Cloud"
+        >Ver</a
+      >
+    </div>
+    <h3>Aloja Cloud</h3>
+    <p>Describe tu idea.<br />Dale forma con IA.</p>
+    <div class="cloud-console">
+      <div class="console-head mono">
+        <span>aloja / creación web</span><span>VISTA CONCEPTUAL</span>
+      </div>
+      <div class="console-body">
+        <div class="server-icon" aria-hidden="true">
+          <svg lucideServer class="ui-icon" aria-hidden="true"></svg>
+        </div>
+        <div class="console-stack">
+          <span>Tu idea en lenguaje natural</span><b>De la descripción a una interfaz.</b>
+          <div class="console-tags mono"><span>IDEA</span><span>IA</span><span>INTERFAZ</span></div>
+        </div>
+      </div>
+      <div class="chart" aria-hidden="true">
+        @for (bar of bars; track $index) {
+          <i [style.height.%]="bar"></i>
+        }
+      </div>
+      <div class="console-bottom mono">
+        <span>CREACIÓN SIN CÓDIGO</span
+        ><span
+          ><svg lucideTrendingUp class="ui-icon" aria-hidden="true"></svg> GENERACIÓN CON IA</span
+        >
+      </div>
+    </div>
+    <div class="product-bottom">
+      <span>Crea interfaces web con lenguaje natural.</span
+      ><a href="https://alojacloud.com" target="_blank" rel="noopener noreferrer"
+        >Explorar Aloja Cloud</a
+      >
+    </div>
+  </article>
+  <article id="agopify" class="product ai-product">
+    <div class="product-top">
+      <span class="product-symbol" aria-hidden="true"
+        ><svg lucideSparkles class="ui-icon" aria-hidden="true"></svg></span
+      ><span class="mono">02 / COMERCIO CONVERSACIONAL</span
+      ><a routerLink="/contacto" aria-label="Consultar por Agopify">Ver</a>
+    </div>
+    <h3>Agopify</h3>
+    <p>Ayuda a tus clientes<br />a encontrar lo que buscan.</p>
+    <div class="conversation">
+      <div class="demo-label mono">DEMOSTRACIÓN CONCEPTUAL</div>
+      <div class="bubble customer">Busco zapatillas de cuero en talla 38.</div>
+      <div class="bubble assistant">Te ayudo a explorar opciones.<br />¿Qué estilo prefieres?</div>
+      <div class="chat-options">
+        <button (click)="category.set('casual')" [attr.aria-pressed]="category() === 'casual'">
+          Casual</button
+        ><button
+          (click)="category.set('deportivo')"
+          [attr.aria-pressed]="category() === 'deportivo'"
+        >
+          Deportivo
+        </button>
+      </div>
+      <div class="chat-result" aria-live="polite">
+        <span class="spark" aria-hidden="true"
+          ><svg lucideSparkles class="ui-icon" aria-hidden="true"></svg></span
+        ><span>{{
+          category() === 'casual'
+            ? 'Exploremos modelos casuales para el día a día.'
+            : 'Exploremos modelos con estilo deportivo.'
+        }}</span>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <span>Agentes de IA + comercio electrónico.</span
+      ><a routerLink="/contacto">Conocer Agopify</a>
+    </div>
+  </article>
+  <article id="habix" class="product property-product">
+    <div class="product-top">
+      <span class="product-symbol" aria-hidden="true"
+        ><svg lucideHouse class="ui-icon" aria-hidden="true"></svg></span
+      ><span class="mono">03 / PROPTECH E IA</span
+      ><a
+        href="https://gohabix.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visitar Habix"
+        >Ver</a
+      >
+    </div>
+    <h3>Habix</h3>
+    <p>Un lugar para vivir.<br />Una nueva forma de encontrarlo.</p>
+    <div class="property-demo">
+      <button
+        class="search-prompt"
+        (click)="property.set(!property())"
+        [attr.aria-expanded]="property()"
+        aria-controls="property-result"
+      >
+        <span aria-hidden="true"><svg lucideSearch class="ui-icon" aria-hidden="true"></svg></span>
+        Un departamento en Miraflores
+        <span aria-hidden="true"
+          ><svg lucideArrowUpRight class="ui-icon" aria-hidden="true"></svg
+        ></span>
+      </button>
+      <div class="property-grid" id="property-result">
+        <div class="building" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div>
+          <span class="demo-label mono">EJEMPLO DE BÚSQUEDA</span>
+          <h4>{{ property() ? 'Tu intención, interpretada.' : 'Cuéntalo con tus palabras.' }}</h4>
+          <div class="property-tags">
+            <span>Miraflores</span
+            ><span>{{ property() ? 'Departamento' : 'Lenguaje natural' }}</span>
+          </div>
+          <p aria-live="polite">
+            {{
+              property()
+                ? 'Ubicación y tipo de propiedad identificados.'
+                : 'Pulsa la búsqueda para explorar.'
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <span>Búsqueda de propiedades con lenguaje natural.</span
+      ><a href="https://gohabix.com" target="_blank" rel="noopener noreferrer">Descubrir Habix</a>
+    </div>
+  </article>
+  <article id="reclamo" class="product claims-product">
+    <div class="product-top">
+      <span class="product-symbol" aria-hidden="true"
+        ><svg lucideLayers class="ui-icon" aria-hidden="true"></svg></span
+      ><span class="mono">04 / GESTIÓN EMPRESARIAL</span
+      ><a
+        href="https://reclamofacil.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visitar Reclamo Fácil"
+        >Ver</a
+      >
+    </div>
+    <h3>Reclamo Fácil</h3>
+    <p>Reclamaciones organizadas.<br />Seguimiento más claro.</p>
+    <div class="claims-demo">
+      <div class="console-head mono">
+        <span>LIBRO DE RECLAMACIONES</span><span>VISTA CONCEPTUAL</span>
+      </div>
+      <div class="claim-item">
+        <span class="claim-icon">01</span>
+        <div><b>Recepción de la solicitud</b><small>Registro centralizado</small></div>
+        <span class="claim-pill">Recibido</span>
+      </div>
+      <div class="claim-item">
+        <span class="claim-icon">02</span>
+        <div><b>Seguimiento del caso</b><small>Información organizada</small></div>
+        <span class="claim-pill purple">En revisión</span>
+      </div>
+      <div class="claim-item">
+        <span class="claim-icon">03</span>
+        <div><b>Gestión de la respuesta</b><small>Trazabilidad del proceso</small></div>
+        <span aria-hidden="true"
+          ><svg lucideArrowUpRight class="ui-icon" aria-hidden="true"></svg
+        ></span>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <span>Solicitudes, seguimiento y respuestas.</span
+      ><a href="https://reclamofacil.com" target="_blank" rel="noopener noreferrer"
+        >Conocer Reclamo Fácil</a
+      >
+    </div>
+  </article>
+  <article id="zendix" class="product upcoming-product">
+    <div class="product-top">
+      <span class="product-symbol" aria-hidden="true"
+        ><svg lucideMail class="ui-icon" aria-hidden="true"></svg
+      ></span>
+      <span class="mono">05 / EMAIL MARKETING</span>
+      <span class="product-status">Próximamente</span>
+    </div>
+    <h3>Zendix</h3>
+    <p>Campañas con intención.<br />Relaciones que crecen.</p>
+    <div class="upcoming-detail">
+      <span class="demo-label mono">DESARROLLO PROPIO · MARRSO S.A.C.</span>
+      <p>
+        Una plataforma de email marketing para creadores, agencias y empresas. Su desarrollo se
+        centra en la creación visual de correos, la gestión de contactos y el envío de campañas.
+      </p>
+      <span class="upcoming-note">Próximamente. Lanzamiento público por anunciar.</span>
+    </div>
+    <div class="product-bottom">
+      <span>Email marketing y automatización.</span
+      ><a routerLink="/contacto">Consultar por Zendix</a>
+    </div>
+  </article>
+  <article id="cotizaflow" class="product upcoming-product">
+    <div class="product-top">
+      <span class="product-symbol" aria-hidden="true"
+        ><svg lucideFileText class="ui-icon" aria-hidden="true"></svg
+      ></span>
+      <span class="mono">06 / PROPUESTAS COMERCIALES</span>
+      <span class="product-status">Próximamente</span>
+    </div>
+    <h3>CotizaFlow</h3>
+    <p>De una oportunidad<br />a una propuesta clara.</p>
+    <div class="upcoming-detail">
+      <span class="demo-label mono">DESARROLLO PROPIO · MARRSO S.A.C.</span>
+      <p>
+        Cotizaciones y propuestas comerciales, by MARRSO. Nace de nuestras herramientas y plantillas
+        para preparar documentos comerciales y exportarlos a PDF.
+      </p>
+      <span class="upcoming-note"
+        >La aplicación web está prevista; todavía no está disponible. La versión pública actual
+        incluye documentación y un exportador de PDF.</span
+      >
+    </div>
+    <div class="product-bottom">
+      <span>La experiencia comercial de MARRSO, hecha producto.</span
+      ><a routerLink="/contacto">Consultar por CotizaFlow</a>
+    </div>
+  </article>
+</div>

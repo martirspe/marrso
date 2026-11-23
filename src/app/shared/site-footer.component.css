@@ -1,0 +1,323 @@
+:host {
+  display: block;
+}
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 52px;
+  border-radius: 40px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 8px 6px 22px;
+  transition:
+    box-shadow 200ms,
+    transform 200ms;
+}
+.footer-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px -10px var(--accent);
+}
+.footer-grid small {
+  display: block;
+  color: var(--secondary);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+footer {
+  padding: 24px 16px 16px;
+}
+.footer-surface {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  background:
+    radial-gradient(ellipse at 10% 0%, var(--accent-soft), transparent 48%),
+    linear-gradient(150deg, var(--surface-elevated), var(--surface));
+}
+.footer-intro {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  align-items: end;
+  gap: 48px;
+  padding-block: 80px 48px;
+}
+.footer-intro h2 {
+  font-size: clamp(2.5rem, 4.8vw, 4.75rem);
+  letter-spacing: -0.065em;
+  line-height: 1.06;
+  font-weight: 500;
+  margin: 20px 0 0;
+}
+.footer-intro em {
+  color: var(--accent);
+  font-style: normal;
+}
+.footer-invitation {
+  max-width: 350px;
+  justify-self: end;
+}
+.footer-invitation p {
+  font-size: 1rem;
+  color: var(--secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.footer-cta {
+  padding: 16px 24px;
+}
+.intent-panel {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  background: color-mix(in srgb, var(--surface-elevated) 70%, transparent);
+}
+.intent-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.intent-title > .ui-icon {
+  color: var(--accent);
+}
+.intent-title h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+.intent-title > span {
+  color: var(--secondary);
+  font-size: 0.875rem;
+  margin-left: auto;
+}
+.intent-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.intent-options a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 20px 16px;
+  background: var(--surface);
+  transition:
+    border-color 180ms,
+    transform 180ms;
+  font-size: 0.875rem;
+}
+.intent-options a:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+.intent-options .ui-icon {
+  color: var(--accent);
+}
+.intent-options small {
+  display: block;
+  font-size: 0.8125rem;
+  margin-top: 5px;
+  color: var(--secondary);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-block: 64px;
+}
+.footer-statement p {
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  font-weight: 450;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  margin: 18px 0 24px;
+}
+.footer-statement p span {
+  color: var(--secondary);
+}
+.location {
+  color: var(--secondary);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+.footer-grid nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.footer-grid h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.footer-grid nav a {
+  display: block;
+  min-height: 44px;
+  padding-block: 10px;
+  color: var(--secondary);
+  font-size: 0.875rem;
+}
+.footer-grid a:hover,
+.footer-bottom a:hover {
+  color: var(--accent);
+}
+.coming-label {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  color: var(--secondary);
+  margin-top: 12px;
+}
+.footer-word {
+  padding-block: 8px 44px;
+  opacity: 0.85;
+  mask-image: linear-gradient(#000 35%, #0005);
+}
+.footer-word img {
+  width: 100%;
+  height: auto;
+}
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-block: 24px 86px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+.footer-bottom nav {
+  display: flex;
+  gap: 24px;
+}
+.footer-bottom a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+@media (max-width: 1000px) {
+  .footer-intro {
+    gap: 28px;
+    padding-top: 56px;
+  }
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .footer-statement {
+    grid-column: 1 / -1;
+  }
+  .footer-statement p br {
+    display: none;
+  }
+  .footer-statement p span {
+    margin-left: 0.25em;
+  }
+  .footer-credit {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  footer {
+    padding: 12px 8px 8px;
+  }
+  .footer-surface {
+    border-radius: 24px;
+  }
+  .footer-surface > .site-container {
+    width: calc(100% - 40px);
+  }
+  .footer-intro {
+    grid-template-columns: 1fr;
+    padding-block: 40px 32px;
+  }
+  .footer-invitation {
+    justify-self: start;
+  }
+  .intent-panel {
+    padding: 20px 16px;
+  }
+  .intent-title {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .intent-title > span {
+    margin-left: 0;
+    width: 100%;
+  }
+  .intent-options {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .intent-options a {
+    padding: 16px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
+    padding-block: 40px;
+  }
+  .footer-grid nav:last-child {
+    grid-column: 1 / -1;
+  }
+  .footer-word {
+    padding-bottom: 24px;
+  }
+  .footer-bottom {
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    padding-block: 20px 86px;
+  }
+}
+
+.footer-consumer {
+  padding-bottom: 40px;
+}
+.complaints-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  width: 320px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-elevated);
+  color: var(--foreground);
+  transition:
+    border-color 180ms,
+    background 180ms;
+}
+.complaints-book:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.complaints-book > .ui-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--accent);
+}
+.complaints-book span {
+  min-width: 0;
+}
+.complaints-book strong {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.complaints-book small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--secondary);
+}

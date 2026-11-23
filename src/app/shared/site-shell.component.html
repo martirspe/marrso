@@ -1,0 +1,181 @@
+<header #headerElement [class.is-scrolled]="scrolled()">
+  <app-header-haze />
+  <div class="site-container nav">
+    <a class="brand" routerLink="/" aria-label="MARRSO, inicio">
+      <img
+        class="block dark:hidden"
+        src="/logos/logo-marrso-black.svg"
+        width="300"
+        height="58"
+        alt=""
+        fetchpriority="high"
+      />
+      <img
+        class="hidden dark:block"
+        src="/logos/logo-marrso-white.svg"
+        width="300"
+        height="58"
+        alt=""
+        fetchpriority="high"
+      />
+    </a>
+    <nav class="desktop" aria-label="Navegación principal">
+      <div class="ecosystem-menu" (focusout)="onEcosystemFocusOut($event)">
+        <button
+          #ecosystemButton
+          type="button"
+          class="nav-link"
+          (click)="ecosystemOpen.set(!ecosystemOpen())"
+          [class.active]="ecosystemActive()"
+          [attr.aria-expanded]="ecosystemOpen()"
+          aria-controls="ecosystem-menu"
+        >
+          Ecosistema
+          <svg
+            lucideChevronDown
+            class="ui-icon menu-chevron"
+            [class.is-open]="ecosystemOpen()"
+            aria-hidden="true"
+          ></svg>
+        </button>
+        @if (ecosystemOpen()) {
+          <div id="ecosystem-menu" class="dropdown">
+            <div class="dropdown-main">
+              <a class="dropdown-heading" routerLink="/ecosistema"
+                ><span class="eyebrow">ECOSISTEMA MARRSO</span
+                ><strong>Productos propios.<br />Una visión compartida.</strong></a
+              >
+              <div class="dropdown-products">
+                @for (product of products; track product.id) {
+                  <a
+                    routerLink="/ecosistema"
+                    [fragment]="product.id"
+                    (mouseenter)="selectedProduct.set(product)"
+                    (focus)="selectedProduct.set(product)"
+                    [class.selected]="selectedProduct().id === product.id"
+                  >
+                    <span class="icon-tile"
+                      ><svg
+                        [lucideIcon]="product.icon"
+                        class="ui-icon"
+                        aria-hidden="true"
+                      ></svg></span
+                    ><span
+                      >{{ product.name }}<small>{{ product.category }}</small></span
+                    >
+                  </a>
+                }
+              </div>
+              <div class="upcoming">
+                <span class="mono">EN DESARROLLO</span>
+                @for (product of upcoming; track product.id) {
+                  <a routerLink="/ecosistema" [fragment]="product.id"
+                    >{{ product.name }}<small>{{ product.category }}</small></a
+                  >
+                }
+              </div>
+            </div>
+            <div class="product-preview">
+              <span class="eyebrow">DISEÑADO CON INTENCIÓN</span>
+              <div class="preview-symbol" aria-hidden="true">
+                <svg
+                  [lucideIcon]="selectedProduct().icon"
+                  [size]="64"
+                  [strokeWidth]="1"
+                  aria-hidden="true"
+                ></svg>
+              </div>
+              <span class="preview-name">{{ selectedProduct().name }}</span>
+              <h2>{{ selectedProduct().detail }}</h2>
+              <p>{{ selectedProduct().audience }}</p>
+              <a routerLink="/ecosistema" [fragment]="selectedProduct().id">Explorar producto</a>
+            </div>
+          </div>
+        }
+      </div>
+      <a
+        class="nav-link"
+        routerLink="/servicios"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Servicios</a
+      >
+      <a
+        class="nav-link"
+        routerLink="/proyectos"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Proyectos</a
+      >
+      <a
+        class="nav-link"
+        routerLink="/nosotros"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Estudio</a
+      >
+    </nav>
+    <div class="nav-actions">
+      <app-theme-switcher /><a class="nav-cta" routerLink="/contacto"
+        >Contacto <span><svg lucideSparkles class="ui-icon" aria-hidden="true"></svg></span
+      ></a>
+      <button
+        #menuButton
+        type="button"
+        class="menu-toggle"
+        (click)="open.set(!open())"
+        [attr.aria-label]="open() ? 'Cerrar menú' : 'Menú'"
+        [attr.aria-expanded]="open()"
+        aria-controls="mobile-menu"
+      >
+        @if (open()) {
+          <svg lucideX class="ui-icon" aria-hidden="true"></svg>
+        } @else {
+          <svg lucideMenu class="ui-icon" aria-hidden="true"></svg>
+        }
+      </button>
+    </div>
+  </div>
+  <nav
+    id="mobile-menu"
+    class="mobile site-container"
+    [hidden]="!open()"
+    aria-label="Navegación móvil"
+  >
+    <span class="eyebrow">EXPLORA MARRSO</span>
+    <div class="mobile-links">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+        >Inicio</a
+      ><a routerLink="/ecosistema" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Ecosistema</a
+      ><a routerLink="/servicios" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Servicios</a
+      ><a routerLink="/proyectos" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Proyectos</a
+      ><a routerLink="/nosotros" routerLinkActive="active" ariaCurrentWhenActive="page">Estudio</a>
+    </div>
+    <span class="eyebrow">PRODUCTOS PROPIOS</span>
+    <div class="mobile-products">
+      @for (product of products; track product.id) {
+        <a routerLink="/ecosistema" [fragment]="product.id"
+          ><svg [lucideIcon]="product.icon" class="ui-icon" aria-hidden="true"></svg
+          >{{ product.name }}</a
+        >
+      }
+    </div>
+    <div class="mobile-upcoming">
+      <span>Próximamente</span>
+      @for (product of upcoming; track product.id) {
+        <a routerLink="/ecosistema" [fragment]="product.id">{{ product.name }}</a>
+      }
+    </div>
+    <a class="mobile-contact" routerLink="/contacto">Prepara tu proyecto</a>
+  </nav>
+</header>
+<ng-content />
+<app-whatsapp-fab />
+<app-site-footer />

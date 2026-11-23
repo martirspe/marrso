@@ -1,0 +1,208 @@
+{
+  "desktop": [
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/ecosistema",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/servicios",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/nosotros",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/proyectos",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/contacto",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/privacidad",
+      "width": 1129
+    },
+    {
+      "centerError": 0.0078125,
+      "favicon": "/logos/favicon-marrso.svg",
+      "headerLeft": 48,
+      "headerWidth": 1018,
+      "overflow": false,
+      "path": "/terminos",
+      "width": 1129
+    }
+  ],
+  "mobile": [
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/ecosistema",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/servicios",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/nosotros",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/proyectos",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/contacto",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/privacidad",
+      "right": 355,
+      "width": 390
+    },
+    {
+      "buttons": 1,
+      "left": 20,
+      "overflow": false,
+      "path": "/terminos",
+      "right": 355,
+      "width": 390
+    }
+  ],
+  "light": [
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/ecosistema",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/servicios",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/nosotros",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/proyectos",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/contacto",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/privacidad",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "background": "rgb(252, 252, 250)",
+      "color": "rgb(24, 32, 30)",
+      "overflow": false,
+      "path": "/terminos",
+      "theme": "light",
+      "width": 390
+    }
+  ]
+}

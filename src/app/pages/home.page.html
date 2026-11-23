@@ -1,0 +1,170 @@
+<app-site-shell>
+  <main id="contenido">
+    <app-hero />
+    <section id="estudio" class="section studio">
+      <div class="site-container">
+        <div class="studio-intro">
+          <p class="eyebrow">EL ESTUDIO</p>
+          <div>
+            <h2 class="h2">Entendemos tu operación.<br />Construimos <span>la solución.</span></h2>
+            <p class="lede">
+              Desde 2019 desarrollamos soluciones digitales en Perú. Nuestra experiencia en comercio
+              electrónico, plataformas empresariales y cloud nos permite conectar las necesidades de
+              tu negocio con decisiones técnicas concretas.
+            </p>
+          </div>
+        </div>
+        <div class="principles">
+          <article>
+            <span class="mono">INGENIERÍA</span>
+            <h3>Sólida desde el origen.</h3>
+            <p>
+              Arquitecturas mantenibles y decisiones técnicas que tienen sentido para tu negocio.
+            </p>
+          </article>
+          <article>
+            <span class="mono">INTELIGENCIA</span>
+            <h3>IA que encuentra su propósito.</h3>
+            <p>
+              Agentes, datos y automatización conectados con los problemas que necesitas resolver.
+            </p>
+          </article>
+          <article>
+            <span class="mono">INFRAESTRUCTURA</span>
+            <h3>Preparada para lo que sigue.</h3>
+            <p>La base cloud para desplegar, operar y evolucionar cada producto con criterio.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="ecosistema" class="section ecosystem-section">
+      <div class="site-container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">ECOSISTEMA MARRSO</p>
+            <h2 class="h2">
+              Productos propios.<br />Soluciones para
+              <span class="lime-text">necesidades reales.</span>
+            </h2>
+          </div>
+          <p>
+            También construimos productos. Nuevas formas de explorar lo que la tecnología puede
+            hacer por las personas y las empresas.
+          </p>
+        </div>
+        <app-ecosystem />
+        <div class="section-tail">
+          <span class="mono">UNA MISMA VISIÓN. MÚLTIPLES POSIBILIDADES.</span
+          ><a class="text-link" routerLink="/ecosistema">Conoce el ecosistema completo</a>
+        </div>
+      </div>
+    </section>
+    <section class="section capabilities">
+      <div class="site-container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">CAPACIDADES</p>
+            <h2 class="h2">
+              Lo que tu negocio necesita.<br />La ingeniería para
+              <span class="lime-text">construirlo.</span>
+            </h2>
+          </div>
+          <a class="text-link" routerLink="/servicios">Explorar servicios</a>
+        </div>
+        <a class="service-row" routerLink="/servicios"
+          ><span class="mono">01</span>
+          <h3>Ingeniería de software</h3>
+          <p>
+            Plataformas SaaS, aplicaciones empresariales e integraciones diseñadas para evolucionar.
+          </p>
+          <span class="row-arrow" aria-hidden="true"
+            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
+        ></a>
+        <a class="service-row" routerLink="/servicios"
+          ><span class="mono">02</span>
+          <h3>Inteligencia artificial</h3>
+          <p>
+            Agentes conversacionales, sistemas RAG y búsqueda semántica conectados con tus datos.
+          </p>
+          <span class="row-arrow" aria-hidden="true"
+            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
+        ></a>
+        <a class="service-row" routerLink="/servicios"
+          ><span class="mono">03</span>
+          <h3>Cloud & DevOps</h3>
+          <p>
+            Infraestructura, despliegues y monitoreo para conocer el estado de tus aplicaciones.
+          </p>
+          <span class="row-arrow" aria-hidden="true"
+            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
+        ></a>
+        <a class="service-row" routerLink="/servicios"
+          ><span class="mono">04</span>
+          <h3>Automatización e integración</h3>
+          <p>APIs y flujos empresariales que conectan sistemas y eliminan trabajo repetitivo.</p>
+          <span class="row-arrow" aria-hidden="true"
+            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
+        ></a>
+      </div>
+    </section>
+    <app-engineering />
+    <section class="section method">
+      <div class="site-container">
+        <p class="eyebrow">NUESTRO MÉTODO</p>
+        <h2 class="h2">
+          De la necesidad al software.<br />Con un <span class="lime-text">plan claro.</span>
+        </h2>
+        <ol class="steps">
+          @for (step of steps; track step.n) {
+            <li>
+              <div class="step-marker">
+                <span></span><small class="mono">{{ step.n }}</small>
+              </div>
+              <h3>{{ step.name }}</h3>
+              <p>{{ step.text }}</p>
+              <span class="step-output">{{ step.output }}</span>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+    <section class="manifesto">
+      <div class="site-container">
+        <p class="eyebrow">NUESTRA FILOSOFÍA</p>
+        <h2>La tecnología<br />debe resolver.<br /><span>No complicar.</span></h2>
+        <div class="manifesto-bottom">
+          <span class="manifesto-star" aria-hidden="true"
+            ><svg lucideSparkles class="ui-icon" aria-hidden="true"></svg
+          ></span>
+          <p>
+            Creemos en sistemas que crecen sin perder estabilidad.<br />En inteligencia artificial
+            que aporta valor real.<br />En construir con intención, desde el primer día.
+          </p>
+          <a routerLink="/nosotros" aria-label="Conocer nuestra filosofía">El estudio</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="site-container faq-layout">
+        <div>
+          <p class="eyebrow">ANTES DE EMPEZAR</p>
+          <h2 class="h2">Buenas preguntas.<br />Respuestas claras.</h2>
+          <a class="text-link" routerLink="/contacto">Prepara tu consulta</a>
+        </div>
+        <div class="faq">
+          @for (faq of faqs; track faq.q) {
+            <details>
+              <summary>
+                {{ faq.q
+                }}<span aria-hidden="true"
+                  ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg
+                ></span>
+              </summary>
+              <p>{{ faq.a }}</p>
+            </details>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+</app-site-shell>

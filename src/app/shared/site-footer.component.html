@@ -1,0 +1,101 @@
+<footer>
+  <div class="footer-surface">
+    <div class="site-container">
+      <div class="footer-intro">
+        <div>
+          <p class="eyebrow">EL SIGUIENTE CAPÍTULO</p>
+          <h2>El próximo paso empieza<br />por <em>tu necesidad.</em></h2>
+        </div>
+        <div class="footer-invitation">
+          <p>
+            Identifica qué quieres mejorar, qué herramientas utilizas y qué resultado buscas.
+            Prepara un resumen para dar contexto a tu proyecto.
+          </p>
+          <a class="footer-cta" routerLink="/contacto"
+            >Prepara tu proyecto <svg lucideSparkles class="ui-icon" aria-hidden="true"></svg
+          ></a>
+        </div>
+      </div>
+      <div class="intent-panel">
+        <div class="intent-title">
+          <svg lucideSparkles class="ui-icon" aria-hidden="true"></svg>
+          <h3>¿Qué quieres construir?</h3>
+          <span>Encuentra tu punto de partida.</span>
+        </div>
+        <div class="intent-options">
+          @for (intent of intents; track intent.name) {
+            <a [routerLink]="intent.route" [fragment]="intent.fragment"
+              ><svg [lucideIcon]="intent.icon" class="ui-icon" aria-hidden="true"></svg
+              ><span
+                >{{ intent.name }}<small>{{ intent.description }}</small></span
+              ></a
+            >
+          }
+        </div>
+      </div>
+      <div class="footer-grid">
+        <div class="footer-statement">
+          <span class="eyebrow">INGENIERÍA CON INTENCIÓN</span>
+          <p>Ideas ambiciosas.<br />Sistemas que las<br /><span>hacen posibles.</span></p>
+          <span class="location mono">HECHO EN PERÚ.<br />PENSADO PARA CRECER.</span>
+        </div>
+        <nav aria-label="El estudio">
+          <h3>El estudio</h3>
+          <a routerLink="/nosotros">Quiénes somos</a><a routerLink="/servicios">Servicios</a
+          ><a routerLink="/proyectos">Proyectos</a><a routerLink="/contacto">Contacto</a>
+        </nav>
+        <nav aria-label="Productos del ecosistema">
+          <h3>Ecosistema</h3>
+          @for (product of products; track product.id) {
+            <a routerLink="/ecosistema" [fragment]="product.id">{{ product.name }}</a>
+          }
+        </nav>
+        <nav aria-label="Próximos productos">
+          <h3>En desarrollo</h3>
+          @for (product of upcoming; track product.id) {
+            <a routerLink="/ecosistema" [fragment]="product.id"
+              >{{ product.name }}<small>{{ product.category }}</small></a
+            >
+          }
+          <span class="coming-label">Próximamente</span>
+        </nav>
+      </div>
+      <div class="footer-consumer">
+        <a
+          class="complaints-book"
+          href="https://marrso.reclamofacil.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Libro de Reclamaciones — MARRSO S.A.C. (abre en una pestaña nueva)"
+        >
+          <svg lucideBookOpen class="ui-icon" aria-hidden="true"></svg>
+          <span><strong>Libro de Reclamaciones</strong><small>MARRSO S.A.C.</small></span>
+        </a>
+      </div>
+      <div class="footer-word" aria-hidden="true">
+        <img
+          class="block dark:hidden"
+          src="/logos/logo-marrso-black.svg"
+          width="300"
+          height="58"
+          alt=""
+          loading="lazy"
+        /><img
+          class="hidden dark:block"
+          src="/logos/logo-marrso-white.svg"
+          width="300"
+          height="58"
+          alt=""
+          loading="lazy"
+        />
+      </div>
+      <div class="footer-bottom">
+        <span>© {{ year }} MARRSO S.A.C.</span
+        ><span class="footer-credit">Diseñado y desarrollado por MARRSO Studio.</span>
+        <nav aria-label="Información legal">
+          <a routerLink="/privacidad">Privacidad</a><a routerLink="/terminos">Términos</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
