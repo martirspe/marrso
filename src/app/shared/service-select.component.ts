@@ -15,7 +15,9 @@ import { LucideCheck, LucideChevronDown } from '@lucide/angular';
   imports: [ReactiveFormsModule, LucideCheck, LucideChevronDown],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <label id="service-label" for="service-native" class="label">Servicio de interés</label>
+    <label id="service-label" for="service-native" class="label" (click)="focusControl($event)"
+      >Servicio de interés</label
+    >
     <select
       id="service-native"
       [formControl]="control()"
@@ -31,10 +33,11 @@ import { LucideCheck, LucideChevronDown } from '@lucide/angular';
     <div class="custom">
       <button
         type="button"
+        id="service-custom"
         role="combobox"
         aria-labelledby="service-label service-value"
         aria-haspopup="listbox"
-        aria-controls="service-options"
+        [attr.aria-controls]="open() ? 'service-options' : null"
         aria-required="true"
         [attr.aria-expanded]="open()"
         [attr.aria-invalid]="invalid()"
@@ -82,7 +85,7 @@ import { LucideCheck, LucideChevronDown } from '@lucide/angular';
     }
     .label {
       color: var(--secondary);
-      font-size: 0.75rem;
+      font-size: 0.875rem;
     }
     select,
     button {
@@ -176,7 +179,7 @@ import { LucideCheck, LucideChevronDown } from '@lucide/angular';
     }
     small {
       color: var(--destructive);
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       line-height: 1.5;
     }
     @media (max-width: 767px) {
@@ -204,6 +207,9 @@ export class ServiceSelectComponent {
     'Inteligencia artificial',
     'Cloud & DevOps',
     'Automatización e integración',
+    'Diseño y desarrollo web',
+    'Branding e identidad visual',
+    'Proyecto integral: marca, web y software',
   ];
   readonly open = signal(false);
   readonly active = signal(0);
@@ -211,6 +217,15 @@ export class ServiceSelectComponent {
   private search = '';
   private lastKey = 0;
 
+  focusControl(event: Event): void {
+    event.preventDefault();
+    const controls = (this.element.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
+      'select, button',
+    );
+    Array.from(controls)
+      .find((control) => control.getClientRects().length > 0)
+      ?.focus();
+  }
   toggle(): void {
     if (this.open()) {
       this.close();

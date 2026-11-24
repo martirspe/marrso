@@ -1,124 +1,147 @@
 <app-site-shell>
-  <main id="contenido">
+  <main tabindex="-1" id="contenido">
     <app-hero />
-    <section id="estudio" class="section studio">
-      <div class="site-container">
-        <div class="studio-intro">
-          <p class="eyebrow">EL ESTUDIO</p>
-          <div>
-            <h2 class="h2">Entendemos tu operación.<br />Construimos <span>la solución.</span></h2>
-            <p class="lede">
-              Desde 2019 desarrollamos soluciones digitales en Perú. Nuestra experiencia en comercio
-              electrónico, plataformas empresariales y cloud nos permite conectar las necesidades de
-              tu negocio con decisiones técnicas concretas.
-            </p>
-          </div>
-        </div>
-        <div class="principles">
-          <article>
-            <span class="mono">INGENIERÍA</span>
-            <h3>Sólida desde el origen.</h3>
-            <p>
-              Arquitecturas mantenibles y decisiones técnicas que tienen sentido para tu negocio.
-            </p>
-          </article>
-          <article>
-            <span class="mono">INTELIGENCIA</span>
-            <h3>IA que encuentra su propósito.</h3>
-            <p>
-              Agentes, datos y automatización conectados con los problemas que necesitas resolver.
-            </p>
-          </article>
-          <article>
-            <span class="mono">INFRAESTRUCTURA</span>
-            <h3>Preparada para lo que sigue.</h3>
-            <p>La base cloud para desplegar, operar y evolucionar cada producto con criterio.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-    <section id="ecosistema" class="section ecosystem-section">
+    <section id="servicios" class="section capabilities" aria-labelledby="services-title">
       <div class="site-container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">ECOSISTEMA MARRSO</p>
-            <h2 class="h2">
-              Productos propios.<br />Soluciones para
-              <span class="lime-text">necesidades reales.</span>
+            <p class="eyebrow">SERVICIOS A MEDIDA</p>
+            <h2 id="services-title" class="h2">
+              ¿Qué necesita<br /><span class="lime-text">tu negocio?</span>
             </h2>
           </div>
           <p>
-            También construimos productos. Nuevas formas de explorar lo que la tecnología puede
-            hacer por las personas y las empresas.
+            Puedes empezar por una necesidad concreta o conectar marca, web y software en un mismo
+            proyecto.
           </p>
         </div>
-        <app-ecosystem />
-        <div class="section-tail">
-          <span class="mono">UNA MISMA VISIÓN. MÚLTIPLES POSIBILIDADES.</span
-          ><a class="text-link" routerLink="/ecosistema">Conoce el ecosistema completo</a>
+        <div class="service-groups">
+          @for (group of serviceGroups; track group.title) {
+            <div class="service-group">
+              <h3>{{ group.title }}</h3>
+              <p class="group-description">{{ group.description }}</p>
+              @for (service of group.items; track service.id) {
+                <a class="service-row" routerLink="/servicios" [fragment]="service.id">
+                  <span
+                    ><strong>{{ service.name }}</strong
+                    ><span class="service-description">{{ service.description }}</span></span
+                  >
+                  <span class="service-action">Ver servicio</span>
+                </a>
+              }
+            </div>
+          }
+        </div>
+        <div class="scope-note">
+          <p>
+            ¿Ya tienes una web o un sistema? Partimos de lo que funciona y definimos qué mejorar.
+          </p>
+          <a class="text-link" routerLink="/servicios">Explorar todos los servicios</a>
         </div>
       </div>
     </section>
-    <section class="section capabilities">
+    <section id="estudio" class="section featured-project" aria-labelledby="project-title">
+      <div class="site-container project-layout">
+        <div class="project-copy">
+          <p class="eyebrow">DESARROLLO PROPIO · MARRSO</p>
+          <h2 id="project-title" class="h2">
+            Software aplicado<br />a una necesidad <span class="lime-text">concreta.</span>
+          </h2>
+          <p class="lede">
+            Reclamo Fácil reúne herramientas para organizar las reclamaciones de los clientes y dar
+            seguimiento a su atención.
+          </p>
+          <a
+            class="text-link"
+            href="https://reclamofacil.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Explorar Reclamo Fácil<span class="sr-only"> (abre en una pestaña nueva)</span></a
+          >
+        </div>
+        <article class="project-card" aria-labelledby="reclamo-title">
+          <div class="project-heading">
+            <svg lucideFileText class="ui-icon" aria-hidden="true"></svg
+            ><span class="eyebrow">SOFTWARE EMPRESARIAL</span>
+          </div>
+          <h3 id="reclamo-title">Reclamo Fácil</h3>
+          <p class="project-summary">
+            Del registro de una solicitud<br />al seguimiento de su respuesta.
+          </p>
+          <dl class="project-facts">
+            <div>
+              <dt>La necesidad</dt>
+              <dd>Organizar la recepción, el seguimiento y la respuesta de reclamaciones.</dd>
+            </div>
+            <div>
+              <dt>El producto</dt>
+              <dd>Una plataforma SaaS para gestionar el Libro de Reclamaciones Virtual.</dd>
+            </div>
+            <div>
+              <dt>La ingeniería</dt>
+              <dd>
+                Arquitectura multiempresa con separación de la información de cada organización.
+              </dd>
+            </div>
+          </dl>
+        </article>
+      </div>
+      <div class="site-container studio-note">
+        <p>
+          Desde 2019, nuestra experiencia conecta desarrollo web, comercio electrónico, software e
+          infraestructura cloud.
+        </p>
+        <a class="text-link" routerLink="/nosotros">Conoce el estudio</a>
+      </div>
+    </section>
+    <section id="ecosistema" class="section ecosystem-section" aria-labelledby="ecosystem-title">
       <div class="site-container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">CAPACIDADES</p>
-            <h2 class="h2">
-              Lo que tu negocio necesita.<br />La ingeniería para
-              <span class="lime-text">construirlo.</span>
+            <p class="eyebrow">PRODUCTOS PROPIOS</p>
+            <h2 id="ecosystem-title" class="h2">
+              Otras formas de<br /><span class="lime-text">resolver con tecnología.</span>
             </h2>
           </div>
-          <a class="text-link" routerLink="/servicios">Explorar servicios</a>
+          <a class="text-link" routerLink="/ecosistema">Explorar el ecosistema completo</a>
         </div>
-        <a class="service-row" routerLink="/servicios"
-          ><span class="mono">01</span>
-          <h3>Ingeniería de software</h3>
-          <p>
-            Plataformas SaaS, aplicaciones empresariales e integraciones diseñadas para evolucionar.
-          </p>
-          <span class="row-arrow" aria-hidden="true"
-            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
-        ></a>
-        <a class="service-row" routerLink="/servicios"
-          ><span class="mono">02</span>
-          <h3>Inteligencia artificial</h3>
-          <p>
-            Agentes conversacionales, sistemas RAG y búsqueda semántica conectados con tus datos.
-          </p>
-          <span class="row-arrow" aria-hidden="true"
-            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
-        ></a>
-        <a class="service-row" routerLink="/servicios"
-          ><span class="mono">03</span>
-          <h3>Cloud & DevOps</h3>
-          <p>
-            Infraestructura, despliegues y monitoreo para conocer el estado de tus aplicaciones.
-          </p>
-          <span class="row-arrow" aria-hidden="true"
-            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
-        ></a>
-        <a class="service-row" routerLink="/servicios"
-          ><span class="mono">04</span>
-          <h3>Automatización e integración</h3>
-          <p>APIs y flujos empresariales que conectan sistemas y eliminan trabajo repetitivo.</p>
-          <span class="row-arrow" aria-hidden="true"
-            ><svg lucidePlus class="ui-icon" aria-hidden="true"></svg></span
-        ></a>
+        <div class="product-highlights">
+          @for (product of featuredProducts; track product.id) {
+            <article class="product-highlight">
+              <svg [lucideIcon]="product.icon" class="ui-icon" aria-hidden="true"></svg>
+              <p class="eyebrow">{{ product.category }}</p>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.audience }}</p>
+              <a class="text-link" routerLink="/ecosistema" [fragment]="product.id"
+                >Conocer {{ product.name }}</a
+              >
+            </article>
+          }
+        </div>
+        <div class="upcoming-line">
+          <span>En desarrollo</span
+          ><a routerLink="/ecosistema" fragment="zendix">Zendix · Email marketing</a
+          ><a routerLink="/ecosistema" fragment="cotizaflow">CotizaFlow · Propuestas comerciales</a>
+        </div>
       </div>
     </section>
-    <app-engineering />
     <section class="section method">
       <div class="site-container">
         <p class="eyebrow">NUESTRO MÉTODO</p>
         <h2 class="h2">
-          De la necesidad al software.<br />Con un <span class="lime-text">plan claro.</span>
+          De la necesidad a la operación.<br />Con un <span class="lime-text">plan claro.</span>
         </h2>
+        <p class="lede method-intro">
+          Entendemos el proyecto completo y conectamos las especialidades que necesita: marca,
+          experiencia digital, software e infraestructura. Cada entrega se diseña pensando en cómo
+          funcionará con las demás, con un alcance definido contigo.
+        </p>
         <ol class="steps">
           @for (step of steps; track step.n) {
             <li>
               <div class="step-marker">
-                <span></span><small class="mono">{{ step.n }}</small>
+                <svg [lucideIcon]="step.icon" class="ui-icon" aria-hidden="true"></svg>
+                <small class="mono">{{ step.n }}</small>
               </div>
               <h3>{{ step.name }}</h3>
               <p>{{ step.text }}</p>
@@ -128,28 +151,12 @@
         </ol>
       </div>
     </section>
-    <section class="manifesto">
-      <div class="site-container">
-        <p class="eyebrow">NUESTRA FILOSOFÍA</p>
-        <h2>La tecnología<br />debe resolver.<br /><span>No complicar.</span></h2>
-        <div class="manifesto-bottom">
-          <span class="manifesto-star" aria-hidden="true"
-            ><svg lucideSparkles class="ui-icon" aria-hidden="true"></svg
-          ></span>
-          <p>
-            Creemos en sistemas que crecen sin perder estabilidad.<br />En inteligencia artificial
-            que aporta valor real.<br />En construir con intención, desde el primer día.
-          </p>
-          <a routerLink="/nosotros" aria-label="Conocer nuestra filosofía">El estudio</a>
-        </div>
-      </div>
-    </section>
     <section class="section">
       <div class="site-container faq-layout">
         <div>
           <p class="eyebrow">ANTES DE EMPEZAR</p>
           <h2 class="h2">Buenas preguntas.<br />Respuestas claras.</h2>
-          <a class="text-link" routerLink="/contacto">Prepara tu consulta</a>
+          <a class="text-link" routerLink="/contacto">Envíanos tu consulta</a>
         </div>
         <div class="faq">
           @for (faq of faqs; track faq.q) {

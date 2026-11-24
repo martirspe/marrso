@@ -1,11 +1,12 @@
 import { HeaderHazeComponent } from './header-haze.component';
+import { ViewportScroller } from '@angular/common';
 import { SiteFooterComponent } from './site-footer.component';
 import { PRODUCTS, UPCOMING } from './product-catalog';
 import {
+  LucideMessageCircle,
   LucideChevronDown,
   LucideX,
   LucideMenu,
-  LucideSparkles,
   LucideDynamicIcon,
 } from '@lucide/angular';
 import {
@@ -21,6 +22,8 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ThemeSwitcherComponent } from './theme-switcher.component';
 import { WhatsappFabComponent } from './whatsapp-fab.component';
+import { CookieConsentComponent } from './cookie-consent.component';
+import { TrackingService } from './tracking.service';
 @Component({
   selector: 'app-site-shell',
   host: {
@@ -31,15 +34,16 @@ import { WhatsappFabComponent } from './whatsapp-fab.component';
     '(window:scroll)': 'onScroll()',
   },
   imports: [
+    LucideMessageCircle,
     LucideChevronDown,
     LucideX,
     LucideMenu,
     LucideDynamicIcon,
-    LucideSparkles,
     RouterLink,
     RouterLinkActive,
     ThemeSwitcherComponent,
     WhatsappFabComponent,
+    CookieConsentComponent,
     SiteFooterComponent,
     HeaderHazeComponent,
   ],
@@ -48,7 +52,9 @@ import { WhatsappFabComponent } from './whatsapp-fab.component';
   styleUrl: './site-shell.component.css',
 })
 export class SiteShellComponent {
+  private readonly tracking = inject(TrackingService);
   private readonly router = inject(Router);
+  private readonly viewportScroller = inject(ViewportScroller);
   readonly headerElement = viewChild<ElementRef<HTMLElement>>('headerElement');
   readonly ecosystemButton = viewChild<ElementRef<HTMLButtonElement>>('ecosystemButton');
   readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
@@ -60,6 +66,7 @@ export class SiteShellComponent {
   readonly upcoming = UPCOMING;
   readonly selectedProduct = signal(this.products[0]);
   constructor() {
+    this.viewportScroller.setOffset(() => [0, (this.headerElement()?.nativeElement.offsetHeight ?? 80) + 24]);
     afterNextRender(() => this.onScroll());
     this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationEnd) {

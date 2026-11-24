@@ -16,7 +16,7 @@ La interfaz anterior utilizaba colores oscuros fijos y textos de 5–13 px. Ahor
 - `hero.component.html/css`, `orbit-art.component.ts`: composición editorial y visual de arquitectura conectada. SVG adaptado al tema y reducido de 72 a 36 trazos; pausa y reduced-motion conservados.
 - `ecosystem.component.html/css`: productos y demos con superficies semánticas, botones táctiles, contenido sin altura rígida y container queries.
 - `engineering.component.ts`, `home.page.html/css`, `content.page.ts`: servicios editoriales, explorador de arquitectura, método, manifiesto, FAQ, cierre y páginas interiores.
-- `contact.page.ts`, `legal.page.ts`, `app.css`: integración visual y foco. El envío del formulario espera a que termine la hidratación; sigue generando un archivo local.
+- `contact.page.ts`, `legal.page.ts`, `app.css`: integración visual y foco. El formulario envía consultas mediante el endpoint del servidor.
 - `playwright.config.ts`, `tests/experience.spec.ts`: pruebas funcionales, responsive y contraste.
 - `eslint.config.mjs`, `package.json`, `.prettierignore`, `.gitignore`: comandos y alcance de validaciones. Lint cubre plantillas HTML externas y bootstrap JS; TypeScript se verifica con `tsc` y el compilador Angular.
 
@@ -24,7 +24,7 @@ La interfaz anterior utilizaba colores oscuros fijos y textos de 5–13 px. Ahor
 
 - Build de producción y ocho rutas prerenderizadas.
 - Nueve pruebas Vitest de contenido indexable, títulos, metadatos y datos estructurados.
-- Seis pruebas Playwright con Edge: 112 combinaciones (8 rutas × 7 anchos × 2 temas), sin overflow horizontal ni errores JS; persistencia y cambios de sistema; sincronización entre pestañas; teclado, Escape y reduced-motion; demos y FAQ; validación y descarga de formulario; bootstrap sin Angular y con almacenamiento bloqueado; contraste de tokens.
+- Seis pruebas Playwright con Edge durante esta revisión visual: 112 combinaciones (8 rutas × 7 anchos × 2 temas), sin overflow horizontal ni errores JS; persistencia y cambios de sistema; sincronización entre pestañas; teclado, Escape y reduced-motion; demos y FAQ; validación del formulario; bootstrap sin Angular y con almacenamiento bloqueado; contraste de tokens.
 - Anchos: 360, 390, 768, 1024, 1280, 1440 y 1920 px.
 - Texto de las paletas comprobado contra canvas, superficie y superficie elevada con mínimo 4.5:1. Texto del CTA mínimo 4.5:1 y borde de inputs contra su fondo mínimo 3:1.
 - Dos pasadas visuales: la primera permitió corregir la integración Tailwind, la colisión del contenedor, los saltos del titular y el exceso de color en el manifiesto. La segunda revisó ambos temas, móvil, tablet, servicios y contacto. Capturas en `docs/qa/`.
@@ -46,7 +46,7 @@ Playwright usa Edge instalado; no descarga navegadores. `QA_URL` permite apuntar
 
 ## Límites
 
-No se desplegó a producción. El formulario conserva su comportamiento previo de descarga local: no envía consultas a MARRSO. No se midieron Core Web Vitals de campo ni se realizó una certificación WCAG, prueba con lector de pantalla real o verificación en Safari/Firefox/dispositivos físicos. La cobertura de contraste corresponde a tokens y combinaciones especificadas, no a una auditoría automatizada integral de cada píxel. Los enlaces externos conservan sus destinos; no se validó la disponibilidad de esos servicios.
+Esta revisión visual no incluye una medición de Core Web Vitals de campo, certificación WCAG, prueba con lector de pantalla real ni verificación en Safari/Firefox/dispositivos físicos. La cobertura de contraste corresponde a tokens y combinaciones especificadas, no a una auditoría automatizada integral de cada píxel. La operación de producción se documenta en [DEPLOY.md](DEPLOY.md).
 
 ## Iconografía
 
@@ -62,7 +62,7 @@ Validación: compilación, lint, TypeScript, formato, 9 pruebas unitarias y 8 pr
 
 El header y el footer usan los SVG originales de `public/logos`: negro para Claro y blanco para Oscuro. La selección se realiza con la variante CSS `dark`, de modo que también respeta Sistema desde el primer render. El header incorpora navegación con estado activo, dropdown de productos, cierre con Escape, clic exterior y salida de foco; los menús se cierran al navegar o cambiar de ancho. El menú móvil tiene controles de 44 px y altura limitada al viewport.
 
-`whatsapp-fab.component.ts` adapta la posición, tamaño circular, safe areas y feedback de hover del botón de Reclamo Fácil. Usa `LucideMessageCircle` y el enlace `https://wa.me/51957049957`, con nombre accesible y apertura segura en pestaña nueva. No se enviaron mensajes para probarlo.
+`whatsapp-fab.component.ts` adapta la posición, tamaño circular, safe areas y feedback de hover al diseño del sitio. Usa `LucideMessageCircle` y el enlace `https://wa.me/51957049957`, con nombre accesible y apertura segura en pestaña nueva. No se enviaron mensajes para probarlo.
 
 Validación: build, lint, TypeScript, formato, 9 pruebas Vitest y 7 pruebas Playwright sobre las páginas prerenderizadas. Inspección visual del header en ambos temas y del menú móvil a 360 px. Capturas `docs/qa/header-*.png`. Se verificaron los destinos de enlace y la carga real de los logos.
 

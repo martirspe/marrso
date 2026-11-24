@@ -40,7 +40,8 @@ header.is-scrolled {
 .desktop {
   display: flex;
   align-items: center;
-  padding: 5px;
+  gap: 5px;
+  padding: 6px;
   border: 1px solid var(--border);
   border-radius: 40px;
   background: linear-gradient(145deg, var(--surface-elevated), var(--surface));
@@ -59,14 +60,21 @@ header.is-scrolled {
   font-size: 0.875rem;
   transition:
     background 180ms,
-    color 180ms;
+    color 180ms,
+    box-shadow 180ms;
   white-space: nowrap;
 }
 .nav-link:hover,
-.nav-link.active,
 .nav-link[aria-expanded='true'] {
   color: var(--foreground);
   background: var(--surface-muted);
+  box-shadow: inset 0 0 0 1px var(--border-subtle);
+}
+.nav-link.active {
+  color: var(--foreground);
+  background: var(--surface-muted);
+  box-shadow: inset 0 0 0 1px var(--border);
+  font-weight: 600;
 }
 .menu-chevron {
   width: 14px;
@@ -86,25 +94,16 @@ header.is-scrolled {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  min-height: 52px;
+  min-height: 48px;
   border-radius: 40px;
   background: var(--foreground);
   color: var(--background);
   font-size: 0.875rem;
   font-weight: 500;
-  padding: 6px 8px 6px 22px;
+  padding: 12px 26px;
   transition:
     box-shadow 200ms,
     transform 200ms;
-}
-.nav-cta span {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: var(--primary-foreground);
 }
 .nav-cta:hover {
   transform: translateY(-2px);
@@ -123,6 +122,9 @@ header.is-scrolled {
   padding: 8px;
   background: var(--surface-elevated);
   box-shadow: var(--shadow-float);
+  max-height: calc(100dvh - 120px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   animation: panel-in 220ms var(--ease);
 }
 .dropdown-main {
@@ -245,6 +247,9 @@ header.is-scrolled {
   }
 }
 @media (max-width: 1200px) {
+  .desktop {
+    gap: 3px;
+  }
   .nav-link {
     padding-inline: 11px;
   }
@@ -305,6 +310,9 @@ header.is-scrolled {
     letter-spacing: -0.045em;
   }
   .mobile a.active {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 6px;
     color: var(--accent);
   }
   .mobile-products {

@@ -116,9 +116,13 @@
       >
     </nav>
     <div class="nav-actions">
-      <app-theme-switcher /><a class="nav-cta" routerLink="/contacto"
-        >Contacto <span><svg lucideSparkles class="ui-icon" aria-hidden="true"></svg></span
-      ></a>
+      <app-theme-switcher /><a
+        class="nav-cta"
+        routerLink="/contacto"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Contacto<svg lucideMessageCircle class="ui-icon" aria-hidden="true"></svg></a
+      >
       <button
         #menuButton
         type="button"
@@ -173,9 +177,10 @@
         <a routerLink="/ecosistema" [fragment]="product.id">{{ product.name }}</a>
       }
     </div>
-    <a class="mobile-contact" routerLink="/contacto">Prepara tu proyecto</a>
+    <a class="mobile-contact" routerLink="/contacto">Cuéntanos tu proyecto</a>
   </nav>
 </header>
 <ng-content />
 <app-whatsapp-fab />
 <app-site-footer />
+<app-cookie-consent />

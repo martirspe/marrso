@@ -3,17 +3,17 @@ import { Meta, Title } from '@angular/platform-browser';
 import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 
 const descriptions: Record<string, string> = {
-  '/': 'MARRSO: estudio de ingeniería de software e inteligencia artificial en Perú. Diseñamos plataformas SaaS, sistemas inteligentes e infraestructura cloud.',
+  '/': 'MARRSO: estudio de software e IA aplicada en Perú. Diseñamos plataformas SaaS, sistemas inteligentes e infraestructura cloud.',
   '/ecosistema':
-    'Conoce Aloja Cloud, Agopify, Habix, Reclamo Fácil, Zendix y CotizaFlow: el ecosistema de productos de MARRSO.',
+    'Conoce Aloja, Agopify, Habix, Reclamo Fácil, Zendix y CotizaFlow: el ecosistema de productos de MARRSO.',
   '/servicios':
-    'Ingeniería de software empresarial, inteligencia artificial, arquitectura cloud y automatización de procesos con MARRSO.',
+    'Software, IA y automatización para tu operación. Branding y diseño web para conectar tu identidad, tu oferta y la experiencia de tus clientes con MARRSO.',
   '/nosotros':
-    'Conoce MARRSO, un estudio de ingeniería que combina software, inteligencia artificial e infraestructura cloud en Perú.',
+    'Conoce MARRSO, un estudio peruano de software e IA aplicada que combina desarrollo, automatización e infraestructura cloud.',
   '/proyectos':
     'Explora los productos y soluciones del ecosistema MARRSO: infraestructura, comercio conversacional y servicios digitales.',
   '/contacto':
-    'Prepara y descarga un resumen de tu proyecto de software, IA o cloud. El formulario no envía tu consulta a MARRSO.',
+    'Contacta con MARRSO sobre tu proyecto de software, branding o diseño web. Envía tu consulta o conversa por WhatsApp.',
   '/privacidad':
     'Información sobre el tratamiento de datos personales en el sitio de MARRSO S.A.C.',
   '/terminos': 'Condiciones de uso del sitio web corporativo de MARRSO S.A.C.',

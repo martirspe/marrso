@@ -15,6 +15,7 @@
   container-type: inline-size;
   transition: border-color var(--motion-normal);
 }
+.product:focus-within,
 .product:hover {
   border-color: var(--input);
 }
@@ -30,10 +31,11 @@
 }
 .product-top .mono {
   color: var(--muted);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   letter-spacing: 0.03em;
 }
 .product-top > a {
+  flex-shrink: 0;
   margin-left: auto;
   display: grid;
   place-items: center;
@@ -80,7 +82,7 @@
   padding: 14px 16px;
   border-bottom: 1px solid var(--border);
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
 }
 .console-body {
   display: flex;
@@ -112,7 +114,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .chart {
@@ -128,18 +130,19 @@
   border-top: 2px solid var(--accent);
 }
 .console-bottom {
+  flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 16px 20px;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .conversation {
   padding: 18px;
 }
 .demo-label {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: var(--muted);
   letter-spacing: 0.04em;
 }
@@ -201,7 +204,7 @@
   margin-top: auto;
 }
 .product-bottom > span {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--muted);
 }
 .product-bottom > a {
@@ -274,7 +277,7 @@
   gap: 5px;
 }
 .property-tags span {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   padding: 4px 6px;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -319,7 +322,7 @@
   margin-left: auto;
 }
 .claim-pill {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   padding: 5px 8px;
   border-radius: 20px;
   background: var(--accent-soft);
@@ -335,7 +338,7 @@
     gap: 8px;
   }
   .product-top .mono {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
   }
   .console-head {
     flex-wrap: wrap;
@@ -386,7 +389,7 @@
   border-radius: 20px;
   color: var(--secondary);
   background: var(--surface);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   white-space: nowrap;
 }
 .upcoming-product .product-top {

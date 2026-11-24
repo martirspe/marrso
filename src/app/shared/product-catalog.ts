@@ -8,7 +8,7 @@ import {
 export const PRODUCTS = [
   {
     id: 'aloja',
-    name: 'Aloja Cloud',
+    name: 'Aloja',
     category: 'Creación web con IA',
     icon: LucideCloud,
     detail: 'Describe la web que quieres crear.',

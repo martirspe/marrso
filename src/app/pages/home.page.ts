@@ -1,58 +1,122 @@
-import { LucidePlus, LucideSparkles } from '@lucide/angular';
+import {
+  LucidePlus,
+  LucideFileText,
+  LucideDynamicIcon,
+  LucideSearch,
+  LucideLayers,
+  LucideCodeXml,
+  LucideRocket,
+  LucideRefreshCw,
+} from '@lucide/angular';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SiteShellComponent } from '../shared/site-shell.component';
 import { HeroComponent } from '../shared/hero.component';
-import { EcosystemComponent } from '../shared/ecosystem.component';
-import { EngineeringComponent } from '../shared/engineering.component';
+import { PRODUCTS } from '../shared/product-catalog';
+
 @Component({
   imports: [
     LucidePlus,
-    LucideSparkles,
+    LucideFileText,
+    LucideDynamicIcon,
     RouterLink,
     SiteShellComponent,
     HeroComponent,
-    EcosystemComponent,
-    EngineeringComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',
 })
 export class HomePage {
+  readonly featuredProducts = PRODUCTS.filter(
+    (product) => product.id === 'aloja' || product.id === 'habix',
+  );
+  readonly serviceGroups = [
+    {
+      title: 'Operación y tecnología',
+      description: 'Para conectar herramientas, ordenar procesos y desarrollar tu producto.',
+      items: [
+        {
+          id: 'software',
+          name: 'Ingeniería de software',
+          description: 'Aplicaciones e integraciones adaptadas a tu operación.',
+        },
+        {
+          id: 'inteligencia-artificial',
+          name: 'Inteligencia artificial',
+          description: 'Asistentes y búsquedas conectados con tus datos.',
+        },
+        {
+          id: 'cloud',
+          name: 'Cloud & DevOps',
+          description: 'Infraestructura, despliegues y monitoreo de tus sistemas.',
+        },
+        {
+          id: 'automatizacion',
+          name: 'Automatización e integración',
+          description: 'Herramientas conectadas para reducir tareas repetitivas.',
+        },
+      ],
+    },
+    {
+      title: 'Marca y experiencia digital',
+      description: 'Para presentar tu oferta y facilitar el siguiente paso de tus clientes.',
+      items: [
+        {
+          id: 'diseno-web',
+          name: 'Diseño y desarrollo web',
+          description: 'Webs y tiendas online con recorridos claros y conexiones útiles.',
+        },
+        {
+          id: 'branding',
+          name: 'Branding e identidad visual',
+          description: 'Una identidad coherente en tu web y tus materiales comerciales.',
+        },
+      ],
+    },
+  ];
   readonly steps = [
     {
       n: '01',
+      icon: LucideSearch,
       name: 'Descubrimiento',
-      text: 'Primero, el problema correcto. Entendemos tu negocio, tus usuarios y los límites del sistema.',
+      text: 'Entendemos tu negocio, tus clientes y tu operación. Definimos el problema, las prioridades y lo que necesitas conseguir.',
       output: 'Contexto y prioridades',
     },
     {
       n: '02',
-      name: 'Arquitectura',
-      text: 'Convertimos el objetivo en una estructura clara de datos, servicios e integraciones.',
+      icon: LucideLayers,
+      name: 'Diseño y arquitectura',
+      text: 'Damos estructura a la solución: identidad, experiencia de uso y base técnica, según las necesidades del proyecto.',
       output: 'Diseño y alcance',
     },
     {
       n: '03',
-      name: 'Ingeniería',
-      text: 'Construimos, probamos e integramos. Cada entrega acerca el sistema a sus usuarios.',
-      output: 'Software funcional',
+      icon: LucideCodeXml,
+      name: 'Construcción',
+      text: 'Diseñamos, desarrollamos y probamos las piezas acordadas. Las integramos para que respondan al mismo objetivo.',
+      output: 'Entregables conectados',
     },
     {
       n: '04',
-      name: 'Despliegue',
-      text: 'Preparamos la infraestructura, la entrega y la observabilidad para operar.',
-      output: 'Puesta en producción',
+      icon: LucideRocket,
+      name: 'Puesta en marcha',
+      text: 'Preparamos la entrega y, cuando corresponde, la infraestructura, el despliegue y el monitoreo para operar.',
+      output: 'Solución lista para su uso',
     },
     {
       n: '05',
+      icon: LucideRefreshCw,
       name: 'Evolución',
-      text: 'Aprendemos del uso real. Mejoramos el producto y su base técnica.',
-      output: 'Mejora continua',
+      text: 'Definimos la documentación y la transferencia. Acordamos el acompañamiento y las mejoras según el uso y tus prioridades.',
+      output: 'Continuidad acordada',
     },
   ];
   readonly faqs = [
+    {
+      q: '¿Puedo contratar solo branding o una web?',
+      a: 'Sí. Puedes trabajar tu identidad de marca, tu web o tu software por separado. Si necesitas conectarlos, definimos una propuesta conjunta con entregables y prioridades. Si ya tienes una identidad o herramientas en uso, partimos de esa base.',
+    },
     {
       q: '¿Cómo se define el presupuesto?',
       a: 'El presupuesto depende del alcance, las integraciones y las condiciones del sistema actual. La propuesta distingue el trabajo de implementación de los servicios recurrentes y costos de terceros que correspondan. Primero definimos qué necesitas resolver y qué incluye cada entrega.',

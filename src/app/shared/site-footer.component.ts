@@ -1,45 +1,37 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  LucideDynamicIcon,
-  LucideSparkles,
-  LucideCode2,
-  LucideCloud,
-  LucideBookOpen,
-} from '@lucide/angular';
+import { LucideSparkles, LucideBookOpen } from '@lucide/angular';
 import { PRODUCTS, UPCOMING } from './product-catalog';
+import { CookieConsentService } from './cookie-consent.service';
 @Component({
   selector: 'app-site-footer',
-  imports: [RouterLink, LucideDynamicIcon, LucideSparkles, LucideBookOpen],
+  imports: [RouterLink, LucideSparkles, LucideBookOpen],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './site-footer.component.html',
   styleUrl: './site-footer.component.css',
 })
 export class SiteFooterComponent {
+  readonly cookieConsent = inject(CookieConsentService);
+  moveWordmark(event: PointerEvent): void {
+    if (event.pointerType !== 'mouse') return;
+    const target = event.currentTarget as HTMLElement;
+    const bounds = target.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    target.style.setProperty(
+      '--wordmark-x',
+      ((event.clientX - bounds.left) / bounds.width) * 100 + '%',
+    );
+    target.style.setProperty(
+      '--wordmark-y',
+      ((event.clientY - bounds.top) / bounds.height) * 100 + '%',
+    );
+  }
+  resetWordmark(event: PointerEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    target.style.removeProperty('--wordmark-x');
+    target.style.removeProperty('--wordmark-y');
+  }
   readonly year = new Date().getFullYear();
   readonly products = PRODUCTS;
   readonly upcoming = UPCOMING;
-  readonly intents = [
-    {
-      name: 'Crear un producto',
-      description: 'De la idea al software.',
-      route: '/servicios',
-      fragment: 'software',
-      icon: LucideCode2,
-    },
-    {
-      name: 'Integrar IA',
-      description: 'Asistentes y búsquedas con tus datos.',
-      route: '/servicios',
-      fragment: 'inteligencia-artificial',
-      icon: LucideSparkles,
-    },
-    {
-      name: 'Crear una web con IA',
-      description: 'Describe tu idea con tus palabras.',
-      route: '/ecosistema',
-      fragment: 'aloja',
-      icon: LucideCloud,
-    },
-  ];
 }

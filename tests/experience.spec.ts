@@ -79,12 +79,15 @@ test('keyboard navigation and product interactions', async ({ page }) => {
   await page.getByRole('button', { name: 'Ecosistema', exact: true }).click();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Ecosistema', exact: true })).toBeFocused();
+  await page.goto('/ecosistema');
   await page.getByRole('button', { name: 'Deportivo', exact: true }).click();
   await expect(page.locator('.chat-result')).toContainText('deportivo');
   await page.locator('.search-prompt').click();
   await expect(page.locator('.property-grid h4')).toContainText('interpretada');
+  await page.goto('/servicios');
   await page.locator('.layer-list button').nth(2).click();
   await expect(page.locator('.layer-detail h3')).toContainText('Inteligencia conectada');
+  await page.goto('/');
   await page.locator('summary').first().click();
   await expect(page.locator('details').first()).toHaveAttribute('open', '');
   await page.setViewportSize({ width: 390, height: 844 });
@@ -97,22 +100,45 @@ test('keyboard navigation and product interactions', async ({ page }) => {
   );
 });
 
-test('contact validation and download remain functional', async ({ page }) => {
+test('contact validation and delivery confirmation remain functional', async ({ page }) => {
+  await page.route('**/api/contact', async (route) => {
+    const body = route.request().postDataJSON();
+    expect(body.email).toBe('qa@example.com');
+    expect(body.privacy).toBe(true);
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+  });
   await page.goto('/contacto');
-  await page.getByRole('button', { name: 'Descargar resumen del proyecto' }).click();
+  await page.getByRole('button', { name: 'Enviar consulta' }).click();
   await expect(page.getByRole('status')).toContainText('Revisa los campos');
+  await expect(page.locator('[formcontrolname="name"]')).toBeFocused();
   await page.locator('[formcontrolname="name"]').fill('Prueba de interfaz');
   await page.locator('[formcontrolname="email"]').fill('qa@example.com');
-  await page
-    .locator('[formcontrolname="service"]')
-    .selectOption({ label: 'Ingeniería de software' });
+  await page.getByRole('combobox').click();
+  await page.keyboard.press('Home');
+  await page.keyboard.press('Enter');
   await page
     .locator('[formcontrolname="message"]')
     .fill('Prueba local de un proyecto de software empresarial.');
   await page.locator('[formcontrolname="privacy"]').check();
-  const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Descargar resumen del proyecto' }).click();
-  expect((await downloadPromise).suggestedFilename()).toBe('consulta-marrso.txt');
+  await page.getByRole('button', { name: 'Enviar consulta' }).click();
+  await expect(page.getByRole('status')).toContainText('Consulta enviada');
+});
+
+test('service links clear the sticky header', async ({ page }) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/servicios');
+    const links = page.locator('.services-index a');
+    for (let index = 0; index < await links.count(); index++) {
+      const href = await links.nth(index).getAttribute('href');
+      await links.nth(index).click();
+      await expect.poll(async () => {
+        const header = await page.locator('header').boundingBox();
+        const target = await page.locator(href!.slice(href!.indexOf('#'))).boundingBox();
+        return Math.round((target?.y ?? 0) - ((header?.y ?? 0) + (header?.height ?? 0)));
+      }).toBeGreaterThan(0);
+    }
+  }
 });
 
 test('theme bootstrap works before Angular and when storage is blocked', async ({ browser }) => {
@@ -219,7 +245,11 @@ test('header logos, disclosure dismissal and WhatsApp destination', async ({ pag
   await expect(page).toHaveURL(/ecosistema#aloja/);
   await expect(page.locator('#ecosystem-menu')).toHaveCount(0);
   const whatsapp = page.getByRole('link', { name: /Escribir a MARRSO por WhatsApp/ });
-  await expect(whatsapp).toHaveAttribute('href', 'https://wa.me/51957049957');
+  const whatsappUrl = new URL((await whatsapp.getAttribute('href'))!);
+  expect(whatsappUrl.origin + whatsappUrl.pathname).toBe('https://wa.me/51957049957');
+  expect(whatsappUrl.searchParams.get('text')).toBe(
+    'Hola, quisiera conversar sobre un proyecto para mi empresa. ¿Podemos hablar?',
+  );
   await expect(whatsapp).toHaveAttribute('target', '_blank');
   // Check the destination without sending a message or opening the external service.
   await page.setViewportSize({ width: 360, height: 800 });
@@ -232,4 +262,40 @@ test('header logos, disclosure dismissal and WhatsApp destination', async ({ pag
   expect(rect).not.toBeNull();
   expect(rect!.x + rect!.width).toBeLessThanOrEqual(360);
   expect(rect!.y + rect!.height).toBeLessThanOrEqual(800);
+});
+
+test('legal navigation updates content and services preserve intent', async ({ page }) => {
+  await page.goto('/privacidad');
+  await page.locator('.legal-nav').getByRole('link', { name: 'Términos y condiciones' }).click();
+  await expect(page.locator('h1')).toHaveText('Términos y condiciones');
+  await expect(page.locator('main')).toBeFocused();
+  await page.goto('/servicios');
+  await page.locator('#branding .text-link').click();
+  await expect(page.locator('#service-value')).toHaveText('Branding e identidad visual');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('#service-native')).toHaveValue('Branding e identidad visual');
+  await page.screenshot({ path: 'docs/qa/ux-contact-mobile.png', fullPage: true });
+});
+
+test('skip link reaches main and short desktop navigation remains scrollable', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Enter');
+  await expect(page.locator('main')).toBeFocused();
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await page.getByRole('button', { name: 'Ecosistema', exact: true }).click();
+  const panel = await page.locator('#ecosystem-menu').boundingBox();
+  expect(panel!.y + panel!.height).toBeLessThanOrEqual(600);
+});
+
+test('home prioritizes services and keeps product discovery concise', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.hero-copy').getByRole('link', { name: 'Explorar servicios' }).click();
+  await expect(page).toHaveURL(/#servicios$/);
+  await expect(page.locator('.service-row')).toHaveCount(6);
+  await expect(page.locator('.product-highlight')).toHaveCount(2);
+  await expect(page.locator('app-ecosystem')).toHaveCount(0);
+  await page.locator('.service-row').filter({ hasText: 'Branding' }).click();
+  await expect(page).toHaveURL(/servicios#branding$/);
+  await expect(page.locator('#branding')).toBeFocused();
 });

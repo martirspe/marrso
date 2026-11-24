@@ -1,0 +1,6 @@
+bucket       = "marrso-tfstate-ACCOUNT_ID"
+key          = "ses/prod.tfstate"
+region       = "us-east-1"
+encrypt      = true
+use_lockfile = true
+profile      = "ops"

@@ -1,4 +1,4 @@
-import { LucideCheck } from '@lucide/angular';
+import { LucideCheck, LucideChevronRight } from '@lucide/angular';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -9,22 +9,26 @@ import { OrbitArtComponent } from '../shared/orbit-art.component';
 
 const CONTENT = {
   ecosistema: {
+    label: 'Ecosistema',
     eyebrow: 'ECOSISTEMA MARRSO',
     title: 'Encuentra el producto para tu necesidad.',
     lede: 'Productos propios para crear interfaces web con IA, orientar compras, buscar propiedades y gestionar reclamaciones.',
   },
   servicios: {
-    eyebrow: 'SERVICIOS DE INGENIERÍA',
-    title: 'Software a la medida de tu operación.',
-    lede: 'Diseñamos, construimos y evolucionamos soluciones digitales. La tecnología se elige a partir del problema y del contexto de cada organización.',
+    label: 'Servicios',
+    eyebrow: 'SERVICIOS MARRSO',
+    title: 'Conectamos tu marca, tu web y tu operación.',
+    lede: 'Desarrollamos software para resolver cómo trabaja tu negocio. Integramos branding y diseño web para que lo que comunicas, lo que vendes y lo que gestionas funcionen en conjunto.',
   },
   nosotros: {
+    label: 'Estudio',
     eyebrow: 'EL ESTUDIO',
     title: 'Experiencia que conecta negocio y tecnología.',
-    lede: 'Somos un estudio peruano de tecnología con trayectoria desde 2019. Evolucionamos del desarrollo web y el comercio electrónico hacia software empresarial, cloud e inteligencia artificial aplicada.',
+    lede: 'Somos un estudio peruano de software e IA aplicada con trayectoria desde 2019. Evolucionamos del desarrollo web y el comercio electrónico hacia plataformas empresariales, automatización y cloud.',
   },
   proyectos: {
-    eyebrow: 'PRODUCTOS Y SOLUCIONES',
+    label: 'Proyectos',
+    eyebrow: 'PROYECTOS MARRSO',
     title: 'Así aplicamos nuestra ingeniería.',
     lede: 'Explora el ecosistema de productos MARRSO y las áreas donde combinamos software, inteligencia artificial e infraestructura cloud.',
   },
@@ -32,6 +36,7 @@ const CONTENT = {
 @Component({
   imports: [
     LucideCheck,
+    LucideChevronRight,
     SiteShellComponent,
     RouterLink,
     EcosystemComponent,
@@ -40,27 +45,38 @@ const CONTENT = {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <app-site-shell
-    ><main id="contenido">
+    ><main tabindex="-1" id="contenido" [class.services-page]="page() === 'servicios'">
       <section class="page-hero">
         <div class="site-container">
-          <a class="breadcrumb mono" routerLink="/">MARRSO / INICIO</a>
+          <nav class="breadcrumb" aria-label="Ruta de navegación">
+            <ol>
+              <li><a routerLink="/">Inicio</a></li>
+              <li>
+                <svg lucideChevronRight class="ui-icon" aria-hidden="true"></svg
+                ><span aria-current="page">{{ content().label }}</span>
+              </li>
+            </ol>
+          </nav>
           <p class="eyebrow">{{ content().eyebrow }}</p>
           <h1 class="display">{{ content().title }}</h1>
           <p class="lede">{{ content().lede }}</p>
-          <span class="page-index mono"
-            >M /
-            {{
-              page() === 'ecosistema'
-                ? '01'
-                : page() === 'servicios'
-                  ? '02'
-                  : page() === 'nosotros'
-                    ? '03'
-                    : '04'
-            }}</span
-          >
+          @if (page() === 'servicios') {
+            <div class="services-actions">
+              <a class="button primary" routerLink="/contacto">Cuéntanos tu proyecto</a>
+              <a class="text-link" routerLink="/servicios" fragment="capacidades"
+                >Explorar servicios</a
+              >
+            </div>
+          }
         </div>
       </section>
+      @if (page() === 'servicios') {
+        <nav class="site-container services-index" aria-label="Encuentra tu servicio">
+          @for (service of services; track service.id) {
+            <a routerLink="/servicios" [fragment]="service.id">{{ service.shortName }}</a>
+          }
+        </nav>
+      }
       @if (page() === 'ecosistema' || page() === 'proyectos') {
         <section class="section">
           <div class="site-container">
@@ -101,12 +117,31 @@ const CONTENT = {
         }
       }
       @if (page() === 'servicios') {
-        <section class="section">
+        <section class="section services-intro" aria-labelledby="services-approach">
+          <div class="site-container approach">
+            <p class="eyebrow">EL ALCANCE PARTE DE TU NECESIDAD</p>
+            <div>
+              <h2 class="h2" id="services-approach">
+                Una capacidad concreta.<br />O un proyecto conectado.
+              </h2>
+              <p class="lede">
+                Puedes trabajar con MARRSO tu marca, tu web o tu software por separado. Si el
+                proyecto necesita conectar esas piezas, definimos un alcance conjunto: desde cómo
+                presentas tu oferta hasta cómo recibes una consulta y gestionas un pedido.
+              </p>
+              <p class="lede">
+                Partimos de lo que ya tienes. Acordamos entregables, integraciones y prioridades
+                según el problema que necesitas resolver.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="section services-catalog" id="capacidades" aria-label="Nuestros servicios">
           <div class="site-container service-grid">
-            @for (service of services; track service.name; let i = $index) {
-              <article [id]="service.id">
-                <span class="eyebrow">0{{ i + 1 }} / CAPACIDAD</span>
-                <h2>{{ service.name }}</h2>
+            @for (service of services; track service.name) {
+              <article [id]="service.id" [attr.aria-labelledby]="service.id + '-title'">
+                <span class="eyebrow">{{ service.category }}</span>
+                <h2 [id]="service.id + '-title'">{{ service.name }}</h2>
                 <p>{{ service.text }}</p>
                 <ul>
                   @for (item of service.items; track item) {
@@ -116,7 +151,13 @@ const CONTENT = {
                     </li>
                   }
                 </ul>
-                <a class="text-link" routerLink="/contacto">Prepara tu proyecto</a>
+                <a
+                  class="text-link"
+                  routerLink="/contacto"
+                  [queryParams]="{ servicio: service.name }"
+                  [attr.aria-label]="'Consultar sobre ' + service.name"
+                  >Consultar este servicio</a
+                >
               </article>
             }
           </div>
@@ -135,8 +176,8 @@ const CONTENT = {
                 convertir desafíos complejos en sistemas funcionales, seguros y escalables.
               </p>
               <p class="lede">
-                Nuestros productos son otra expresión de esa visión: explorar problemas reales,
-                tomar decisiones técnicas conscientes y acompañar cada solución mientras evoluciona.
+                Integramos branding y diseño web para dar continuidad entre la identidad del
+                negocio, la experiencia de sus clientes y los sistemas que sostienen su operación.
               </p>
             </div>
           </div>
@@ -155,9 +196,11 @@ const CONTENT = {
       }
     </main></app-site-shell
   >`,
+  styleUrl: './services.page.css',
   styles: `
     .page-hero {
-      padding: 70px 0 85px;
+      padding: 28px 0 48px;
+      min-height: 430px;
       position: relative;
       overflow: hidden;
       background: linear-gradient(to bottom, var(--background), var(--surface) 140px);
@@ -167,24 +210,57 @@ const CONTENT = {
       position: relative;
     }
     .breadcrumb {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      display: inline-block;
-      margin-bottom: 50px;
+      margin-bottom: 24px;
+      font-size: 0.875rem;
+      color: var(--secondary);
+    }
+    .breadcrumb ol,
+    .breadcrumb li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .breadcrumb ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .breadcrumb a:hover,
+    .breadcrumb [aria-current] {
+      color: var(--foreground);
+    }
+    .breadcrumb .ui-icon {
+      width: 14px;
+      height: 14px;
+    }
+    .page-hero .eyebrow {
+      margin: 0;
+      font-size: 0.8125rem;
     }
     .page-hero h1 {
-      max-width: 1000px;
+      max-width: 22ch;
+      font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+      text-wrap: balance;
+      margin: 16px 0 24px;
     }
     .page-hero .lede {
-      max-width: 650px;
+      max-width: 68ch;
+      margin: 0;
+      text-wrap: pretty;
     }
-    .page-index {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      color: var(--muted);
-      font-size: 0.75rem;
+    .page-hero + .section {
+      padding-top: clamp(2.5rem, 4vw, 4rem);
+      border-top: 0;
     }
     .service-grid {
       display: grid;
@@ -200,6 +276,13 @@ const CONTENT = {
     }
     .service-grid article > .eyebrow {
       grid-column: 1 / -1;
+    }
+    .service-grid .text-link {
+      justify-self: start;
+      align-self: end;
+    }
+    .service-grid article {
+      scroll-margin-top: 140px;
     }
     .service-grid h2 {
       font-size: 1.875rem;
@@ -267,13 +350,11 @@ const CONTENT = {
     }
     @media (max-width: 760px) {
       .page-hero {
-        padding: 45px 0 65px;
+        padding: 16px 0 32px;
+        min-height: 0;
       }
       .breadcrumb {
-        margin-bottom: 35px;
-      }
-      .page-index {
-        display: none;
+        margin-bottom: 20px;
       }
       .service-grid,
       .studio-body,
@@ -304,6 +385,8 @@ export class ContentPage {
   readonly services = [
     {
       id: 'software',
+      shortName: 'Software',
+      category: 'DESARROLLO A MEDIDA',
       name: 'Ingeniería de software',
       text: 'Cuando tus herramientas ya no acompañan tu operación, diseñamos aplicaciones e integraciones adaptadas a tus procesos, usuarios y prioridades.',
       items: [
@@ -314,6 +397,8 @@ export class ContentPage {
     },
     {
       id: 'inteligencia-artificial',
+      shortName: 'Inteligencia artificial',
+      category: 'INTELIGENCIA APLICADA',
       name: 'Inteligencia artificial',
       text: 'Conecta la información de tu negocio con asistentes, búsquedas y procesos que ayuden a tu equipo. Definimos qué puede hacer la IA y cuándo debe intervenir una persona.',
       items: [
@@ -324,6 +409,8 @@ export class ContentPage {
     },
     {
       id: 'cloud',
+      shortName: 'Cloud & DevOps',
+      category: 'INFRAESTRUCTURA Y OPERACIÓN',
       name: 'Cloud & DevOps',
       text: 'Infraestructura y procesos de entrega que permiten desplegar, observar y mejorar el comportamiento de un sistema.',
       items: [
@@ -334,12 +421,38 @@ export class ContentPage {
     },
     {
       id: 'automatizacion',
+      shortName: 'Automatización',
+      category: 'PROCESOS CONECTADOS',
       name: 'Automatización e integración',
       text: 'Conectamos herramientas y procesos para que la información fluya y el trabajo repetitivo deje de ser un obstáculo.',
       items: [
         'Integración de APIs y plataformas externas',
         'Flujos de trabajo entre áreas y herramientas',
         'Automatización comercial y operativa',
+      ],
+    },
+    {
+      id: 'diseno-web',
+      shortName: 'Diseño web',
+      category: 'EXPERIENCIA DIGITAL',
+      name: 'Diseño y desarrollo web',
+      text: 'Una web debe ayudar a entender tu oferta y facilitar el siguiente paso. Diseñamos el recorrido desde la primera visita hasta la consulta, cotización o compra, con las conexiones que tu operación necesita.',
+      items: [
+        'Sitios corporativos, landing pages y tiendas online',
+        'Estructura de contenidos y diseño adaptable a móviles',
+        'Formularios, cotizadores e integración con tus herramientas según alcance',
+      ],
+    },
+    {
+      id: 'branding',
+      shortName: 'Branding',
+      category: 'IDENTIDAD DE MARCA',
+      name: 'Branding e identidad visual',
+      text: 'Cuando tu marca no expresa el valor de lo que haces, cada presentación exige explicarlo de nuevo. Creamos una identidad reconocible y coherente, pensada para aplicarse en tu web, tus materiales comerciales y tus productos digitales.',
+      items: [
+        'Definición de la marca a partir de su propuesta y público',
+        'Logotipo, tipografía, color y sistema visual',
+        'Guía de identidad y aplicaciones acordadas para tu negocio',
       ],
     },
   ];

@@ -1,4 +1,4 @@
-# MARRSO Studio — dirección visual y verificación
+# MARRSO Studio — implementación y verificación
 
 ## Dirección
 
@@ -15,18 +15,17 @@ Los metadatos por ruta, canonical, Open Graph y JSON-LD se generan con una estra
 ## Ejecución
 
 - Desarrollo: `npm start` y abrir http://localhost:4200.
-- Producción: `npm run build`, después `npm run serve:ssr:marrso-studio`.
+- Producción: seguir [DEPLOY.md](DEPLOY.md). Para ejecutar el resultado compilado sin Docker: `npm run build` y `npm run serve:ssr:marrso-studio`.
 - Contratos de prerender: `npm test` (compila antes de inspeccionar el HTML).
 - Formato: `npm run format:check`.
 
 ## Integraciones y límites
 
 - Las demostraciones de productos son conceptuales. No muestran telemetría real ni resultados comerciales.
-- El enlace oficial de Agopify no se proporcionó. Sus CTA conducen a Contacto.
-- El formulario valida y descarga un resumen local en texto plano. No transmite datos, no registra información personal y no simula un envío. El canal comercial necesita proveedor, dirección de destino y protección contra abuso antes de habilitar envíos.
+- El formulario envía consultas a `POST /api/contact` mediante Amazon SES. Valida campos, origen y frecuencia; necesita las variables de `.env.production.example` y la infraestructura descrita en [infra/terraform/README.md](../infra/terraform/README.md).
 - Política de privacidad y términos conservan el contenido informativo anterior. Requieren información corporativa y revisión legal antes de un lanzamiento público.
-- Docker/Nginx existentes se preservan; no se ha desplegado ni configurado una cuenta Cloudflare.
-- El paquete Lucide Angular no se incorpora en esta pasada; se mantiene iconografía vectorial y tipográfica ligera.
+- Docker Compose publica el puerto de la aplicación solo en loopback. El vhost del VPS y TLS se configuran con `scripts/deploy.sh`.
+- Los iconos de interfaz usan `@lucide/angular`.
 - No se atribuyen puntuaciones Lighthouse ni Core Web Vitals sin medición.
 - La consulta npm audit detectó cinco alertas moderadas en herramientas de desarrollo ligadas a minimatch/ESLint. No se aplicó una migración de versión mayor de ESLint como parte del rediseño.
 

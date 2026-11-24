@@ -80,7 +80,7 @@
 .core-caption {
   position: absolute;
   bottom: 14px;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   color: var(--muted);
   background: var(--surface);
@@ -120,11 +120,11 @@
 }
 .layer-tag {
   margin-left: auto;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .visual-footer {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   padding-block: 6px;
 }
 .visual-footer button {
@@ -143,7 +143,7 @@
   font-size: 0.8125rem;
 }
 .hero-baseline .mono {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   letter-spacing: 0.06em;
 }
 .hero-baseline p {
@@ -194,7 +194,7 @@
     font-size: 2.85rem;
   }
   .hero-note {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
   }
   .hero-baseline {
     align-items: start;
@@ -202,6 +202,6 @@
     gap: 0;
   }
   .visual-toolbar {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
   }
 }

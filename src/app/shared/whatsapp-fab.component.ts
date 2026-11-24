@@ -7,7 +7,7 @@ import { BackToTopComponent } from './back-to-top.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <app-back-to-top /><a
       class="whatsapp-fab"
-      href="https://wa.me/51957049957"
+      [href]="whatsappUrl"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Escribir a MARRSO por WhatsApp al +51 957 049 957 (abre en una pestaña nueva)"
@@ -90,4 +90,8 @@ import { BackToTopComponent } from './back-to-top.component';
     }
   `,
 })
-export class WhatsappFabComponent {}
+export class WhatsappFabComponent {
+  readonly whatsappUrl =
+    'https://wa.me/51957049957?text=' +
+    encodeURIComponent('Hola, quisiera conversar sobre un proyecto para mi empresa. ¿Podemos hablar?');
+}

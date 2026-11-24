@@ -12,25 +12,8 @@
             Prepara un resumen para dar contexto a tu proyecto.
           </p>
           <a class="footer-cta" routerLink="/contacto"
-            >Prepara tu proyecto <svg lucideSparkles class="ui-icon" aria-hidden="true"></svg
+            >Cuéntanos tu proyecto <svg lucideSparkles class="ui-icon" aria-hidden="true"></svg
           ></a>
-        </div>
-      </div>
-      <div class="intent-panel">
-        <div class="intent-title">
-          <svg lucideSparkles class="ui-icon" aria-hidden="true"></svg>
-          <h3>¿Qué quieres construir?</h3>
-          <span>Encuentra tu punto de partida.</span>
-        </div>
-        <div class="intent-options">
-          @for (intent of intents; track intent.name) {
-            <a [routerLink]="intent.route" [fragment]="intent.fragment"
-              ><svg [lucideIcon]="intent.icon" class="ui-icon" aria-hidden="true"></svg
-              ><span
-                >{{ intent.name }}<small>{{ intent.description }}</small></span
-              ></a
-            >
-          }
         </div>
       </div>
       <div class="footer-grid">
@@ -72,29 +55,25 @@
           <span><strong>Libro de Reclamaciones</strong><small>MARRSO S.A.C.</small></span>
         </a>
       </div>
-      <div class="footer-word" aria-hidden="true">
-        <img
-          class="block dark:hidden"
-          src="/logos/logo-marrso-black.svg"
-          width="300"
-          height="58"
-          alt=""
-          loading="lazy"
-        /><img
-          class="hidden dark:block"
-          src="/logos/logo-marrso-white.svg"
-          width="300"
-          height="58"
-          alt=""
-          loading="lazy"
-        />
-      </div>
       <div class="footer-bottom">
         <span>© {{ year }} MARRSO S.A.C.</span
         ><span class="footer-credit">Diseñado y desarrollado por MARRSO Studio.</span>
         <nav aria-label="Información legal">
-          <a routerLink="/privacidad">Privacidad</a><a routerLink="/terminos">Términos</a>
+          <a routerLink="/privacidad">Privacidad</a><a routerLink="/terminos">Términos</a><button type="button" class="cookie-preferences-link" (click)="cookieConsent.show()">Preferencias de cookies</button>
         </nav>
+      </div>
+      <div
+        class="footer-word"
+        aria-hidden="true"
+        (pointermove)="moveWordmark($event)"
+        (pointerleave)="resetWordmark($event)"
+      >
+        <div class="wordmark-base">
+          <span>M</span><span>A</span><span>R</span><span>R</span><span>S</span><span>O</span>
+        </div>
+        <div class="wordmark-glow">
+          <span>M</span><span>A</span><span>R</span><span>R</span><span>S</span><span>O</span>
+        </div>
       </div>
     </div>
   </div>

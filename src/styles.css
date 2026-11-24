@@ -117,6 +117,7 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
+    line-height: 1.5;
   }
   ::selection {
     background: var(--primary);
@@ -144,6 +145,17 @@
   h3,
   p {
     margin-top: 0;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    overflow-wrap: break-word;
+  }
+  main:focus {
+    outline: none;
   }
   :focus-visible {
     outline: 2px solid var(--ring);
@@ -191,12 +203,19 @@
     @apply text-muted-foreground text-base leading-relaxed;
     max-width: 620px;
   }
+  .lede + .lede {
+    margin-top: 1rem;
+  }
   .button {
     @apply inline-flex items-center justify-center gap-4 min-h-12 px-6 py-3 rounded-lg border border-border text-sm font-medium;
     transition:
       background var(--motion-fast),
       transform var(--motion-fast),
       border-color var(--motion-fast);
+  }
+  .button:disabled {
+    opacity: 0.6;
+    transform: none;
   }
   .button:hover {
     transform: translateY(-2px);
