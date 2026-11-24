@@ -1,15 +1,45 @@
 # MARRSO Studio
 
-Sitio de MARRSO desarrollado con Angular 22.
+Sitio web de MARRSO para presentar sus servicios, productos y proyectos, y recibir consultas comerciales. Está desarrollado con Angular 22, renderizado en servidor y prerenderizado de las rutas públicas. Un servidor Express atiende `POST /api/contact` y envía las consultas mediante Amazon SES.
 
-## Desarrollo
+## Requisitos
+
+- Node.js compatible con Angular 22 y npm.
+- Para el despliegue: Docker con Compose, nginx y Certbot en el VPS.
+- Para habilitar el formulario: una identidad verificada de Amazon SES y credenciales de envío. La infraestructura se define en [infra/terraform/](infra/terraform/README.md).
+
+## Empezar en local
 
 ```bash
+git clone https://github.com/martirspe/marrso.git
+cd marrso
 npm ci
 npm start
 ```
 
-El sitio estará disponible en `http://localhost:4200/`.
+Abre `http://localhost:4200/`. La navegación y la interfaz pueden desarrollarse sin credenciales de AWS; el envío del formulario requiere configurar SES. Las variables de producción están documentadas en [.env.production.example](.env.production.example). No subas archivos `.env` con credenciales al repositorio.
+
+## Qué incluye
+
+- Páginas de inicio, ecosistema, servicios, nosotros, proyectos, contacto, privacidad y términos.
+- Renderizado en servidor, prerenderizado de las rutas públicas y metadatos SEO por página.
+- Diseño adaptable con apariencia clara, oscura y según el sistema. Los iconos de interfaz usan `@lucide/angular`.
+- Formulario de contacto con validación del lado del servidor, límite de intentos, campo trampa contra envíos automatizados y envío por SES. El correo del visitante se utiliza como `Reply-To`.
+- Preferencias separadas para analítica y publicidad, conservadas durante 180 días y modificables desde el pie de página.
+
+## Configuración
+
+### Correo del formulario
+
+El servidor necesita `AWS_REGION` (o `SES_REGION`), `CONTACT_FROM_EMAIL` y `CONTACT_TO_EMAIL`. En producción usa también `SES_CONFIGURATION_SET=marrso-prod-contact` para asociar los envíos a eventos y alertas. El SDK de AWS obtiene las credenciales mediante su cadena estándar; en el VPS, el archivo `.env` privado contiene la clave del usuario IAM limitado a `ses:SendEmail`.
+
+La identidad SES, el conjunto de configuración, los permisos IAM y las alertas se administran con Terraform. Consulta [la guía de infraestructura SES](infra/terraform/README.md) antes de modificar estos recursos. Si SES no está configurado o rechaza el envío, el formulario informa del error y conserva los datos introducidos.
+
+### Analítica y publicidad
+
+Los identificadores públicos se configuran en [public/tracking-config.js](public/tracking-config.js): `ga4` (`G-...`), `meta` (ID numérico) y `tiktok` (ID de Pixel). Un valor vacío desactiva el proveedor. No pongas tokens ni credenciales en ese archivo.
+
+Los proveedores se cargan después del consentimiento correspondiente. La integración actual registra vistas de página; no transmite datos del formulario ni eventos de conversión. Verifica los identificadores y eventos en las herramientas de cada proveedor antes de publicar.
 
 ## Verificación
 
@@ -19,20 +49,17 @@ npm run test:unit
 npm run build
 ```
 
-## Interfaz
+`npm run test:e2e` ejecuta Playwright y requiere el navegador configurado en [playwright.config.ts](playwright.config.ts). `npm run format:check` revisa el formato. La compilación genera el cliente y el servidor en `dist/marrso-studio/`.
 
-### Cookies y medición
+## Despliegue
 
-El aviso permite aceptar, rechazar y configurar por separado analítica y publicidad. La decisión se conserva 180 días y se puede cambiar desde «Preferencias de cookies» en el pie. Los proveedores no se cargan antes de recibir la autorización correspondiente. La navegación interna genera una sola vista de página por ruta y categoría autorizada.
+Sigue [docs/DEPLOY.md](docs/DEPLOY.md) desde la conexión al VPS y la clonación de `main` hasta HTTPS, verificación y rollback. El despliegue usa Docker Compose y `scripts/deploy.sh`; la aplicación se expone solo en loopback y nginx publica el dominio.
 
-Configura los identificadores públicos en `public/tracking-config.js`: `ga4` (`G-...`), `meta` (ID numérico) y `tiktok` (ID de Pixel). Los valores vacíos desactivan cada proveedor. No introduzcas tokens de API ni credenciales en ese archivo. Verifica los IDs y eventos en GA4 DebugView, Meta Events Manager y TikTok Events Manager antes de publicar. La integración actual envía únicamente vistas de página; no envía datos del formulario ni eventos de conversión sin una definición y validación adicional.
+## Documentación
 
-El formulario envía la consulta desde `POST /api/contact` mediante Amazon SES. El campo «Servicio de interés» usa un desplegable personalizado en escritorio, con navegación por teclado, y el selector nativo en móvil. WhatsApp sigue disponible para conversación inmediata.
-
-La infraestructura SES se gestiona con Terraform en [infra/terraform/README.md](infra/terraform/README.md). Los registros DNS existentes permanecen bajo su estado Terraform actual. En producción define `AWS_REGION` (o `SES_REGION`), `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` y `SES_CONFIGURATION_SET`. El servidor usa la cadena de credenciales estándar de AWS; Terraform prepara un usuario con `ses:SendEmail` limitado al remitente. El formulario devuelve un error y conserva los datos escritos si falta configuración o SES rechaza el envío.
-
-## Producción
-
-Sigue la [guía de despliegue en producción](docs/DEPLOY.md) para preparar el VPS, transferir el `.env` privado, publicar con Docker Compose, configurar HTTPS y verificar el formulario. La infraestructura de correo se opera desde [infra/terraform/README.md](infra/terraform/README.md).
-
-El botón flotante de WhatsApp abre el número de MARRSO y usa el recurso de marca `public/assets/social/whatsapp.svg`. Los iconos de interfaz usan `@lucide/angular`, de acuerdo con `AGENTS.md`.
+| Documento                                        | Contenido                                                         |
+| ------------------------------------------------ | ----------------------------------------------------------------- |
+| [Despliegue en producción](docs/DEPLOY.md)       | Primer despliegue, actualizaciones, verificaciones y diagnóstico. |
+| [Infraestructura SES](infra/terraform/README.md) | Terraform, estado remoto, DNS de correo y operación de alertas.   |
+| [Implementación](docs/IMPLEMENTACION.md)         | Arquitectura y límites funcionales.                               |
+| [Sistema visual](docs/DESIGN-SYSTEM.md)          | Decisiones de diseño, accesibilidad y verificación visual.        |
