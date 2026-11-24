@@ -6,12 +6,22 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { hasAdvertisingConsent, metaConfigured, sendMetaEvent } from './meta-conversions';
 import { contactEmailContent } from './contact-email';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
+let contactLogos: Promise<[Buffer, Buffer]> | undefined;
+const getContactLogos = () =>
+  (contactLogos ??= Promise.all(
+    ['logo-marrso-white.png', 'logo-marrso-black.png'].map((file) =>
+      readFile(join(browserDistFolder, 'logos/email', file)).catch(() =>
+        readFile(join(process.cwd(), 'public/logos/email', file)),
+      ),
+    ),
+  ) as Promise<[Buffer, Buffer]>);
 
 const app = express();
 app.set('trust proxy', 1);
@@ -106,6 +116,7 @@ app.post('/api/contact', express.json({ limit: '12kb' }), async (req, res) => {
   }
   try {
     const emailContent = contactEmailContent({ name, email, company, service, message });
+    const [whiteLogo, blackLogo] = await getContactLogos();
     await ses.send(
       new SendEmailCommand({
         FromEmailAddress: from,
@@ -121,6 +132,22 @@ app.post('/api/contact', express.json({ limit: '12kb' }), async (req, res) => {
               Text: { Data: emailContent.text, Charset: 'UTF-8' },
               Html: { Data: emailContent.html, Charset: 'UTF-8' },
             },
+            Attachments: [
+              {
+                FileName: 'logo-marrso-white.png',
+                ContentType: 'image/png',
+                ContentDisposition: 'INLINE',
+                ContentId: 'marrso-logo-white',
+                RawContent: whiteLogo,
+              },
+              {
+                FileName: 'logo-marrso-black.png',
+                ContentType: 'image/png',
+                ContentDisposition: 'INLINE',
+                ContentId: 'marrso-logo-black',
+                RawContent: blackLogo,
+              },
+            ],
           },
         },
       }),
