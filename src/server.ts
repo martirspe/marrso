@@ -6,7 +6,9 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { randomUUID } from 'node:crypto';
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
+import { hasAdvertisingConsent, metaConfigured, sendMetaEvent } from './meta-conversions';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -24,6 +26,22 @@ const services = new Set([
   'Diseño y desarrollo web',
   'Branding e identidad visual',
 ]);
+
+app.get('/healthz', (_req, res) => res.status(200).type('text').send('ok'));
+
+app.get('/tracking-config.js', (_req, res) => {
+  const identifier = (name: string, pattern: RegExp): string => {
+    const value = process.env[name]?.trim() ?? '';
+    return pattern.test(value) ? value : '';
+  };
+  const config = {
+    ga4: identifier('GA4_MEASUREMENT_ID', /^G-[A-Z0-9]+$/),
+    meta: identifier('META_PIXEL_ID', /^\d+$/),
+    tiktok: identifier('TIKTOK_PIXEL_ID', /^[A-Z0-9]+$/i),
+  };
+  res.set('Cache-Control', 'no-store');
+  res.type('js').send(`window.MARRSO_TRACKING = ${JSON.stringify(config)};`);
+});
 
 app.post('/api/contact', express.json({ limit: '12kb' }), async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -108,9 +126,77 @@ app.post('/api/contact', express.json({ limit: '12kb' }), async (req, res) => {
       }),
       { abortSignal: AbortSignal.timeout(10000) },
     );
-    res.status(200).json({ ok: true });
+    const metaEventId =
+      hasAdvertisingConsent(req) && /^\d+$/.test(process.env['META_PIXEL_ID'] ?? '')
+        ? randomUUID()
+        : undefined;
+    if (metaEventId) {
+      try {
+        await sendMetaEvent(req, 'Lead', metaEventId, '/contacto', email);
+      } catch {
+        console.warn('Meta Conversions API: no se pudo registrar el evento Lead.');
+      }
+    }
+    res.status(200).json({ ok: true, ...(metaEventId ? { metaEventId } : {}) });
   } catch {
     res.status(502).json({ error: 'No se pudo enviar la consulta. Inténtalo de nuevo.' });
+  }
+});
+
+const metaPageAttempts = new Map<string, { count: number; resetAt: number }>();
+app.post('/api/meta/page-view', express.json({ limit: '1kb' }), async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const origin = req.get('origin');
+  if (origin && origin !== `${req.protocol}://${req.get('host')}`) {
+    res.sendStatus(403);
+    return;
+  }
+  if (!hasAdvertisingConsent(req) || !metaConfigured()) {
+    res.sendStatus(204);
+    return;
+  }
+  const { path, eventId } = req.body ?? {};
+  if (
+    typeof path !== 'string' ||
+    ![
+      '/',
+      '/ecosistema',
+      '/servicios',
+      '/nosotros',
+      '/proyectos',
+      '/contacto',
+      '/privacidad',
+      '/terminos',
+    ].includes(path) ||
+    typeof eventId !== 'string' ||
+    !/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(eventId)
+  ) {
+    res.sendStatus(400);
+    return;
+  }
+  const now = Date.now();
+  const ip = req.ip ?? 'unknown';
+  const previous = metaPageAttempts.get(ip);
+  if (previous && previous.resetAt > now && previous.count >= 60) {
+    res.sendStatus(429);
+    return;
+  }
+  if (metaPageAttempts.size > 10000) {
+    for (const [key, value] of metaPageAttempts)
+      if (value.resetAt <= now) metaPageAttempts.delete(key);
+  }
+  metaPageAttempts.set(
+    ip,
+    previous && previous.resetAt > now
+      ? { count: previous.count + 1, resetAt: previous.resetAt }
+      : { count: 1, resetAt: now + 60 * 60 * 1000 },
+  );
+  try {
+    await sendMetaEvent(req, 'PageView', eventId, path);
+    res.sendStatus(204);
+  } catch {
+    console.warn('Meta Conversions API: no se pudo registrar PageView.');
+    res.sendStatus(502);
   }
 });
 

@@ -37,9 +37,12 @@ La identidad SES, el conjunto de configuración, los permisos IAM y las alertas 
 
 ### Analítica y publicidad
 
-Los identificadores públicos se configuran en [public/tracking-config.js](public/tracking-config.js): `ga4` (`G-...`), `meta` (ID numérico) y `tiktok` (ID de Pixel). Un valor vacío desactiva el proveedor. No pongas tokens ni credenciales en ese archivo.
+En producción, configura los identificadores públicos en `.env`: `GA4_MEASUREMENT_ID` (`G-...`), `META_PIXEL_ID` (numérico) y `TIKTOK_PIXEL_ID` (alfanumérico). Docker Compose pasa esas variables al servidor, que sirve `/tracking-config.js` con los valores válidos en cada solicitud. Un valor vacío o inválido desactiva ese proveedor. Estos identificadores son públicos: no uses tokens ni credenciales en estas variables.
 
-Los proveedores se cargan después del consentimiento correspondiente. La integración actual registra vistas de página; no transmite datos del formulario ni eventos de conversión. Verifica los identificadores y eventos en las herramientas de cada proveedor antes de publicar.
+Para `npm start`, Angular sirve el archivo [public/tracking-config.js](public/tracking-config.js) con valores vacíos. Si necesitas probar el seguimiento en local, usa el servidor SSR con las variables de entorno configuradas.
+
+Los proveedores se cargan después del consentimiento correspondiente. GA4 y TikTok registran vistas de página. El formulario no transmite su mensaje a proveedores publicitarios. Verifica los identificadores y eventos en las herramientas de cada proveedor antes de publicar.
+Para medir visitas y consultas con Meta, configura `META_CAPI_ACCESS_TOKEN` para el mismo Pixel. Con consentimiento publicitario, Pixel y Conversions API envían eventos `PageView` con un identificador compartido para deduplicación. El evento `Lead` se envía por ambos canales solo tras confirmar el correo del formulario; el servidor comparte una huella SHA-256 del correo, nunca el mensaje. El token permanece en el servidor. `META_CAPI_TEST_EVENT_CODE` permite comprobar los eventos en Eventos de prueba de Meta y debe quedar vacío en producción.
 
 ## Verificación
 

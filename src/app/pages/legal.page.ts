@@ -41,8 +41,23 @@ import { SiteShellComponent } from '../shared/site-shell.component';
         </p>
         @if (data()['page'] === 'privacidad') {
           <h2 id="cookies">Cookies y almacenamiento local</h2>
-          <p>Guardamos tu decisión sobre cookies durante 180 días en una cookie propia y en el almacenamiento local de este navegador. La preferencia de apariencia también puede guardarse localmente. Puedes modificar tu decisión en cualquier momento desde «Preferencias de cookies» en el pie del sitio.</p>
-          <p>Las categorías opcionales son analítica (Google Analytics 4) y publicidad (Meta Pixel y TikTok Pixel). Cada proveedor solo se carga cuando su categoría está autorizada y tiene un identificador configurado. Al retirar la autorización publicitaria, el sitio se recarga para detener los píxeles ya cargados. También puedes borrar estos datos desde la configuración de tu navegador.</p>
+          <p>
+            Guardamos tu decisión sobre cookies durante 180 días en una cookie propia y en el
+            almacenamiento local de este navegador. La preferencia de apariencia también puede
+            guardarse localmente. Puedes modificar tu decisión en cualquier momento desde
+            «Preferencias de cookies» en el pie del sitio.
+          </p>
+          <p>
+            Las categorías opcionales son analítica (Google Analytics 4) y publicidad (Meta Pixel,
+            Meta Conversions API y TikTok Pixel). Con tu autorización publicitaria, Meta puede
+            recibir visitas y, si envías el formulario, el evento de consulta recibida junto con una
+            huella SHA-256 de tu correo normalizado, dirección IP, agente del navegador e
+            identificadores publicitarios de Meta disponibles. El mensaje del formulario no se
+            comparte con Meta. Los proveedores solo se activan cuando están configurados y
+            autorizados. Al retirar la autorización publicitaria, el sitio se recarga para detener
+            los píxeles ya cargados. También puedes borrar estos datos desde la configuración de tu
+            navegador.
+          </p>
         }
       </section>
     </main></app-site-shell

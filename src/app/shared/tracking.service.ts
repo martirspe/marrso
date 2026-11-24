@@ -10,7 +10,11 @@ declare global {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
-    ttq?: Record<string, unknown> & { page?: () => void; load?: (id: string) => void; track?: (event: string) => void };
+    ttq?: Record<string, unknown> & {
+      page?: () => void;
+      load?: (id: string) => void;
+      track?: (event: string) => void;
+    };
   }
 }
 
@@ -25,13 +29,25 @@ export class TrackingService {
   private lastPage = '';
   private previousAdvertising = false;
 
+  trackLead(eventId: string): void {
+    if (
+      !this.browser ||
+      !this.consent.preferences()?.advertising ||
+      !this.metaLoaded ||
+      !/^[0-9a-f-]{36}$/i.test(eventId)
+    )
+      return;
+    window.fbq?.('track', 'Lead', {}, { eventID: eventId });
+  }
+
   constructor() {
     if (!this.browser) return;
     effect(() => {
       const preference = this.consent.preferences();
       if (!preference) return;
       const config = window.MARRSO_TRACKING ?? {};
-      if (config.ga4 && /^G-[A-Z0-9]+$/.test(config.ga4)) this.google(config.ga4, preference.analytics);
+      if (config.ga4 && /^G-[A-Z0-9]+$/.test(config.ga4))
+        this.google(config.ga4, preference.analytics);
       if (preference.advertising) {
         if (config.meta && /^\d+$/.test(config.meta)) this.meta(config.meta);
         if (config.tiktok && /^[A-Z0-9]+$/i.test(config.tiktok)) this.tiktok(config.tiktok);
@@ -42,7 +58,9 @@ export class TrackingService {
       this.previousAdvertising = preference.advertising;
       if (preference.analytics || preference.advertising) this.pageView();
     });
-    this.router.events.pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd)).subscribe(() => this.pageView());
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => this.pageView());
   }
 
   private script(src: string): void {
@@ -56,20 +74,34 @@ export class TrackingService {
     if (!this.gaLoaded && !allowed) return;
     if (!this.gaLoaded) {
       window.dataLayer = window.dataLayer || [];
-      window.gtag = (...args: unknown[]) => { window.dataLayer?.push(args); };
-      window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      window.gtag = (...args: unknown[]) => {
+        window.dataLayer?.push(args);
+      };
+      window.gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
       window.gtag('js', new Date());
       window.gtag('config', id, { send_page_view: false });
       this.script(`https://www.googletagmanager.com/gtag/js?id=${id}`);
       this.gaLoaded = true;
     }
-    window.gtag?.('consent', 'update', { analytics_storage: allowed ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    window.gtag?.('consent', 'update', {
+      analytics_storage: allowed ? 'granted' : 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    });
   }
 
   private meta(id: string): void {
     if (this.metaLoaded) return;
     const queue: unknown[][] = [];
-    window.fbq = (...args: unknown[]) => { queue.push(args); };
+    window.fbq = (...args: unknown[]) => {
+      queue.push(args);
+    };
     Object.assign(window.fbq, { queue, loaded: true, version: '2.0' });
     this.script('https://connect.facebook.net/en_US/fbevents.js');
     window.fbq('init', id);
@@ -79,13 +111,37 @@ export class TrackingService {
   private tiktok(id: string): void {
     if (this.tiktokLoaded) return;
     const queue: unknown[][] = [];
-    const ttq: Record<string, unknown> = { _i: { [id]: Object.assign([], { _u: 'https://analytics.tiktok.com/i18n/pixel/events.js' }) }, _t: { [id]: Date.now() }, _o: { [id]: {} } };
-    for (const method of ['page', 'track', 'identify', 'instances', 'debug', 'on', 'off', 'once', 'ready', 'alias', 'group', 'enableCookie', 'disableCookie']) {
-      ttq[method] = (...args: unknown[]) => { queue.push([method, ...args]); };
+    const ttq: Record<string, unknown> = {
+      _i: { [id]: Object.assign([], { _u: 'https://analytics.tiktok.com/i18n/pixel/events.js' }) },
+      _t: { [id]: Date.now() },
+      _o: { [id]: {} },
+    };
+    for (const method of [
+      'page',
+      'track',
+      'identify',
+      'instances',
+      'debug',
+      'on',
+      'off',
+      'once',
+      'ready',
+      'alias',
+      'group',
+      'enableCookie',
+      'disableCookie',
+    ]) {
+      ttq[method] = (...args: unknown[]) => {
+        queue.push([method, ...args]);
+      };
     }
     Object.assign(queue, ttq);
     window.ttq = queue as unknown as typeof window.ttq;
-    this.script('https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=' + encodeURIComponent(id) + '&lib=ttq');
+    this.script(
+      'https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=' +
+        encodeURIComponent(id) +
+        '&lib=ttq',
+    );
     this.tiktokLoaded = true;
   }
 
@@ -96,8 +152,22 @@ export class TrackingService {
     const key = `${page}:${preference.analytics && this.gaLoaded}:${preference.advertising && this.metaLoaded}:${preference.advertising && this.tiktokLoaded}`;
     if (key === this.lastPage) return;
     this.lastPage = key;
-    if (preference.analytics && this.gaLoaded) window.gtag?.('event', 'page_view', { page_path: page, page_location: location.origin + page });
-    if (preference.advertising && this.metaLoaded) window.fbq?.('track', 'PageView');
+    if (preference.analytics && this.gaLoaded)
+      window.gtag?.('event', 'page_view', {
+        page_path: page,
+        page_location: location.origin + page,
+      });
+    if (preference.advertising && this.metaLoaded) {
+      const eventId = crypto.randomUUID();
+      window.fbq?.('track', 'PageView', {}, { eventID: eventId });
+      void fetch('/api/meta/page-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: page.split('?')[0], eventId }),
+      }).catch(() => {
+        /* Pixel remains available if Conversions API is unavailable. */
+      });
+    }
     if (preference.advertising && this.tiktokLoaded) window.ttq?.page?.();
   }
 }

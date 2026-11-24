@@ -1,6 +1,29 @@
+name: marrso
+
 services:
   app:
     build: .
     restart: unless-stopped
     env_file: .env
     ports: ['127.0.0.1:${WEB_PORT:-8090}:4000']
+    environment:
+      TZ: ${TZ:-America/Lima}
+      NODE_ENV: production
+      PORT: '4000'
+      NG_ALLOWED_HOSTS: marrso.com,www.marrso.com,localhost,127.0.0.1
+      NG_TRUST_PROXY_HEADERS: 'true'
+      NODE_OPTIONS: ${WEB_NODE_OPTIONS:---max-old-space-size=768}
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+    init: true
+    security_opt: [no-new-privileges:true]

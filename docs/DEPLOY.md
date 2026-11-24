@@ -72,7 +72,9 @@ cd /opt/marrso
 bash scripts/deploy.sh
 ```
 
-El script valida `.env`, construye la imagen, inicia Docker Compose, espera una respuesta local en `/contacto`, crea el vhost nginx si falta, prueba y recarga nginx, y solicita el certificado para `marrso.com` y `www.marrso.com`. La aplicación solo escucha en loopback mediante `WEB_PORT` (8090 por defecto).
+El script valida `.env`, construye la imagen, inicia Docker Compose y espera a que el healthcheck de `/healthz` indique que la aplicación está lista. Después crea el vhost nginx si falta, prueba y recarga nginx, y solicita el certificado para `marrso.com` y `www.marrso.com`. La aplicación solo escucha en loopback mediante `WEB_PORT` (8090 por defecto).
+
+Antes de desplegar puedes ejecutar `bash scripts/deploy.sh --check` para verificar Docker, `.env` y Compose sin cambiar los servicios. `--skip-nginx` despliega solo el contenedor; `--skip-tls` configura nginx sin solicitar un certificado. Al igual que en los otros proyectos del VPS, `--pull` exige un árbol de Git limpio y usa `git pull --ff-only`.
 
 Si DNS aún no apunta al VPS, prepara el contenedor y nginx con `bash scripts/deploy.sh --skip-tls`; ejecuta después `bash scripts/deploy.sh` cuando ambos nombres resuelvan y el puerto 80 sea accesible. El script no reescribe un vhost existente: si cambias `WEB_PORT`, actualiza también su `proxy_pass`.
 
@@ -82,7 +84,7 @@ En el VPS:
 
 ```bash
 docker compose ps
-curl -fsS -H 'Host: marrso.com' http://127.0.0.1:8090/contacto >/dev/null
+curl -fsS -H 'Host: marrso.com' http://127.0.0.1:8090/healthz >/dev/null
 curl -I https://marrso.com/
 curl -I https://www.marrso.com/contacto
 sudo nginx -t
@@ -120,14 +122,14 @@ bash scripts/deploy.sh --pull
 
 ## 8. Diagnóstico rápido
 
-| Síntoma | Comprobación |
-| --- | --- |
-| `git clone` solicita acceso o falla | Revisa los permisos del repositorio y las credenciales Git del usuario del VPS. |
-| `docker compose config` falla | Revisa que `.env` exista en `/opt/marrso` y sus variables requeridas. |
-| El health check local falla | Revisa `docker compose ps`, `docker compose logs --tail=100 app` y que `WEB_PORT` esté libre. |
-| Certbot no emite | Comprueba A/AAAA de ambos nombres y acceso público al puerto 80; repite `bash scripts/deploy.sh`. |
-| HTTPS muestra otro sitio o certificado | Comprueba el vhost `marrso.com`, su `server_name`, el certificado y nginx. |
-| El formulario responde con error | Comprueba región, remitente, destinatario, conjunto SES, credenciales e identidad verificada. |
-| No llegan alertas | Comprueba que la suscripción SNS no figure `PendingConfirmation`. |
+| Síntoma                                | Comprobación                                                                                      |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `git clone` solicita acceso o falla    | Revisa los permisos del repositorio y las credenciales Git del usuario del VPS.                   |
+| `docker compose config` falla          | Revisa que `.env` exista en `/opt/marrso` y sus variables requeridas.                             |
+| El health check local falla            | Revisa `docker compose ps`, `docker compose logs --tail=100 app` y que `WEB_PORT` esté libre.     |
+| Certbot no emite                       | Comprueba A/AAAA de ambos nombres y acceso público al puerto 80; repite `bash scripts/deploy.sh`. |
+| HTTPS muestra otro sitio o certificado | Comprueba el vhost `marrso.com`, su `server_name`, el certificado y nginx.                        |
+| El formulario responde con error       | Comprueba región, remitente, destinatario, conjunto SES, credenciales e identidad verificada.     |
+| No llegan alertas                      | Comprueba que la suscripción SNS no figure `PendingConfirmation`.                                 |
 
 Si se sospecha exposición de la clave IAM, crea una nueva, actualiza `.env` en el VPS, comprueba el envío y desactiva la anterior.

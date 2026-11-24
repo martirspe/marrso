@@ -12,6 +12,7 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ServiceSelectComponent } from '../shared/service-select.component';
 import { SiteShellComponent } from '../shared/site-shell.component';
+import { TrackingService } from '../shared/tracking.service';
 @Component({
   imports: [
     ServiceSelectComponent,
@@ -37,15 +38,14 @@ import { SiteShellComponent } from '../shared/site-shell.component';
         </div>
         <div class="contact-note">
           <span class="eyebrow">HABLEMOS DE TU PROYECTO</span>
-          <p>
-            Si prefieres conversar de inmediato, también puedes escribirnos por WhatsApp.
-          </p>
+          <p>Si prefieres conversar de inmediato, también puedes escribirnos por WhatsApp.</p>
         </div>
       </div>
       <div class="form-panel">
         <h2 class="mono form-title">Cuéntanos tu proyecto</h2>
         <p class="form-help">
-          Todos los campos son obligatorios salvo Empresa. Usaremos tus datos para responder esta consulta.
+          Todos los campos son obligatorios salvo Empresa. Usaremos tus datos para responder esta
+          consulta.
         </p>
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
           <label
@@ -81,7 +81,13 @@ import { SiteShellComponent } from '../shared/site-shell.component';
             >Empresa <span class="optional">(opcional)</span
             ><input formControlName="company" autocomplete="organization" maxlength="160"
           /></label>
-          <input class="honeypot" formControlName="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input
+            class="honeypot"
+            formControlName="website"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
           <app-service-select [control]="form.controls.service" [invalid]="invalid('service')" />
           <label class="wide"
             >¿Qué necesitas resolver?<textarea
@@ -202,7 +208,13 @@ import { SiteShellComponent } from '../shared/site-shell.component';
       font-size: 0.875rem;
       display: contents;
     }
-    .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .honeypot {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
     input,
     select,
     textarea {
@@ -294,6 +306,7 @@ import { SiteShellComponent } from '../shared/site-shell.component';
   `,
 })
 export class ContactPage {
+  private readonly tracking = inject(TrackingService);
   private readonly element = inject(ElementRef<HTMLElement>);
   private readonly focusInvalid = signal(false);
   private readonly route = inject(ActivatedRoute);
@@ -368,11 +381,15 @@ export class ContactPage {
         body: JSON.stringify(value),
       });
       if (!response.ok) throw new Error('send_failed');
+      const result: { metaEventId?: string } = await response.json();
+      if (result.metaEventId) this.tracking.trackLead(result.metaEventId);
       this.form.reset();
       this.attempted.set(false);
       this.status.set('Consulta enviada. Te responderemos por correo.');
     } catch {
-      this.status.set('No pudimos enviar tu consulta. Inténtalo de nuevo o escríbenos por WhatsApp.');
+      this.status.set(
+        'No pudimos enviar tu consulta. Inténtalo de nuevo o escríbenos por WhatsApp.',
+      );
     } finally {
       this.sending.set(false);
     }
