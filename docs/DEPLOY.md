@@ -55,6 +55,8 @@ chmod 600 .env
 docker compose config --quiet
 ```
 
+El archivo `.env` debe pertenecer al usuario que ejecuta `docker compose` (por ejemplo, `devops`) y tener permisos `600`. Si se copió con `sudo` y quedó a nombre de `root`, corrige la propiedad con `sudo chown "$USER:$USER" .env` antes de ejecutar el despliegue sin `sudo`.
+
 Si necesitas recrearlo, copia `.env.production.example` a `.env` y completa `WEB_PORT`, `AWS_REGION`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`, `SES_CONFIGURATION_SET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` y `CERTBOT_EMAIL`. Usa `SES_CONFIGURATION_SET=marrso-prod-contact` y `CONTACT_FROM_EMAIL=contacto@marrso.com`. El destinatario debe ser un buzón atendido. No pongas credenciales en `public/`, archivos versionados, argumentos de comandos ni mensajes de chat.
 
 ## 4. Comprobar SES y DNS de correo

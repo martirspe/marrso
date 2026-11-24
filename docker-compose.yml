@@ -11,7 +11,7 @@ services:
       NODE_ENV: production
       PORT: '4000'
       NG_ALLOWED_HOSTS: marrso.com,www.marrso.com,localhost,127.0.0.1
-      NG_TRUST_PROXY_HEADERS: 'true'
+      NG_TRUST_PROXY_HEADERS: x-forwarded-proto
       NODE_OPTIONS: ${WEB_NODE_OPTIONS:---max-old-space-size=768}
     healthcheck:
       test:
