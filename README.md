@@ -31,7 +31,7 @@ Abre `http://localhost:4200/`. La navegación y la interfaz pueden desarrollarse
 
 ### Correo del formulario
 
-El servidor necesita `AWS_REGION` (o `SES_REGION`), `CONTACT_FROM_EMAIL` y `CONTACT_TO_EMAIL`. En producción usa también `SES_CONFIGURATION_SET=marrso-prod-contact` para asociar los envíos a eventos y alertas. El SDK de AWS obtiene las credenciales mediante su cadena estándar; en el VPS, el archivo `.env` privado contiene la clave del usuario IAM limitado a `ses:SendEmail`.
+El servidor necesita `AWS_REGION` (o `SES_REGION`), `CONTACT_FROM_EMAIL` y `CONTACT_TO_EMAIL`. El remitente previsto es `notificaciones@marrso.com` y el destinatario es `contacto@marrso.com`; las respuestas van al correo del visitante mediante `Reply-To`. En producción usa también `SES_CONFIGURATION_SET=marrso-prod-contact` para asociar los envíos a eventos y alertas. El SDK de AWS obtiene las credenciales mediante su cadena estándar; en el VPS, el archivo `.env` privado contiene la clave del usuario IAM limitado a `ses:SendEmail`. La política IAM restringe también la dirección de origen, por lo que debe actualizarse antes de cambiar `CONTACT_FROM_EMAIL` en producción.
 
 La identidad SES, el conjunto de configuración, los permisos IAM y las alertas se administran con Terraform. Consulta [la guía de infraestructura SES](infra/terraform/README.md) antes de modificar estos recursos. Si SES no está configurado o rechaza el envío, el formulario informa del error y conserva los datos introducidos.
 

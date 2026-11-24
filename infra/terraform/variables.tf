@@ -10,7 +10,7 @@ variable "email_domain" {
 
 variable "from_email" {
   type    = string
-  default = "contacto@marrso.com"
+  default = "notificaciones@marrso.com"
 }
 
 variable "alerts_email" {

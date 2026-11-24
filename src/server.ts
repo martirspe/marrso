@@ -9,6 +9,7 @@ import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { hasAdvertisingConsent, metaConfigured, sendMetaEvent } from './meta-conversions';
+import { contactEmailContent } from './contact-email';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -104,6 +105,7 @@ app.post('/api/contact', express.json({ limit: '12kb' }), async (req, res) => {
     return;
   }
   try {
+    const emailContent = contactEmailContent({ name, email, company, service, message });
     await ses.send(
       new SendEmailCommand({
         FromEmailAddress: from,
@@ -116,10 +118,8 @@ app.post('/api/contact', express.json({ limit: '12kb' }), async (req, res) => {
           Simple: {
             Subject: { Data: `Nueva consulta web: ${service}`, Charset: 'UTF-8' },
             Body: {
-              Text: {
-                Data: `Nombre: ${name}\nCorreo: ${email}\nEmpresa: ${company || 'No indicada'}\nServicio: ${service}\n\n${message}`,
-                Charset: 'UTF-8',
-              },
+              Text: { Data: emailContent.text, Charset: 'UTF-8' },
+              Html: { Data: emailContent.html, Charset: 'UTF-8' },
             },
           },
         },

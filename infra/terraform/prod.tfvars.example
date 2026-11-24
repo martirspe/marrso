@@ -1,4 +1,4 @@
 aws_region        = "us-east-1"
 email_domain      = "marrso.com"
-from_email        = "contacto@marrso.com"
+from_email        = "notificaciones@marrso.com"
 alerts_email      = "contacto@marrso.com"
