@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CookieConsentService } from './cookie-consent.service';
 
@@ -7,7 +7,7 @@ import { CookieConsentService } from './cookie-consent.service';
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (consent.preferences() === null || consent.open()) {
+    @if (ready() && (consent.preferences() === null || consent.open())) {
       <section
         class="cookie-panel"
         role="dialog"
@@ -243,7 +243,11 @@ import { CookieConsentService } from './cookie-consent.service';
   `,
 })
 export class CookieConsentComponent {
+  readonly ready = signal(false);
   readonly consent = inject(CookieConsentService);
+  constructor() {
+    afterNextRender(() => this.ready.set(true));
+  }
   readonly configuring = signal(false);
   readonly analytics = signal(false);
   readonly advertising = signal(false);

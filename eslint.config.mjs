@@ -23,8 +23,4 @@ export default [
       '@angular-eslint/template/interactive-supports-focus': 'error',
     },
   },
-  {
-    files: ['public/theme-init.js'],
-    rules: { 'no-eval': 'error', 'no-debugger': 'error', 'no-unused-vars': 'error' },
-  },
 ];

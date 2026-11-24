@@ -11,7 +11,7 @@
     "test:e2e": "playwright test",
     "format:check": "prettier --check .",
     "serve:ssr:marrso-studio": "node dist/marrso-studio/server/server.mjs",
-    "lint": "eslint \"src/**/*.html\" public/theme-init.js",
+    "lint": "eslint \"src/**/*.html\"",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "private": true,

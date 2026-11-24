@@ -10,7 +10,7 @@ La interfaz anterior utilizaba colores oscuros fijos y textos de 5–13 px. Ahor
 
 - `src/styles.css`: paletas, tokens semánticos, tipografía fluida, superficies, bordes, foco, sombras, radios, espaciado y movimiento. Mapeo `@theme inline`, variante `dark` y patrones reutilizables mediante `@apply` en la capa de componentes. El contenedor se llama `site-container` para evitar colisiones con Tailwind.
 - `.postcssrc.json`: integración efectiva de Tailwind; sustituye `postcss.config.mjs`.
-- `public/theme-init.js`, `src/index.html`: inicialización síncrona antes del render, mediante archivo del mismo origen. No se añadió JavaScript inline ni se relajó CSP. No existe una CSP declarada en la configuración actual de Express/nginx; una política futura debe permitir este recurso.
+- `src/index.html`: inicialización síncrona del tema en el `<head>`, antes de los estilos y sin esperar una solicitud adicional. También sincroniza `theme-color`. No existe una CSP declarada actualmente; una política futura deberá permitir este script o reemplazarlo por un bootstrap con nonce.
 - `theme.service.ts`, `theme-switcher.component.ts`: servicio singleton con Signals y selector accesible Claro/Oscuro/Sistema. Persistencia, cambios del SO, sincronización entre pestañas y tolerancia a almacenamiento bloqueado. La plantilla inicial coincide entre servidor y cliente; el servicio se sincroniza después del primer render.
 - `site-shell.component.*`: header, navegación móvil, Escape con retorno de foco, selector de apariencia y footer.
 - `hero.component.html/css`, `orbit-art.component.ts`: composición editorial y visual de arquitectura conectada. SVG adaptado al tema y reducido de 72 a 36 trazos; pausa y reduced-motion conservados.
@@ -18,7 +18,7 @@ La interfaz anterior utilizaba colores oscuros fijos y textos de 5–13 px. Ahor
 - `engineering.component.ts`, `home.page.html/css`, `content.page.ts`: servicios editoriales, explorador de arquitectura, método, manifiesto, FAQ, cierre y páginas interiores.
 - `contact.page.ts`, `legal.page.ts`, `app.css`: integración visual y foco. El formulario envía consultas mediante el endpoint del servidor.
 - `playwright.config.ts`, `tests/experience.spec.ts`: pruebas funcionales, responsive y contraste.
-- `eslint.config.mjs`, `package.json`, `.prettierignore`, `.gitignore`: comandos y alcance de validaciones. Lint cubre plantillas HTML externas y bootstrap JS; TypeScript se verifica con `tsc` y el compilador Angular.
+- `eslint.config.mjs`, `package.json`, `.prettierignore`, `.gitignore`: comandos y alcance de validaciones. Lint cubre plantillas HTML externas; TypeScript se verifica con `tsc` y el compilador Angular.
 
 ## Verificación
 

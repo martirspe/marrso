@@ -10,7 +10,25 @@
       content="MARRSO diseña, desarrolla y escala plataformas digitales, sistemas inteligentes e infraestructura cloud."
     />
     <meta name="theme-color" content="#fcfcfa" />
-    <script src="theme-init.js"></script>
+    <script>
+      (() => {
+        let preference = 'system';
+        try {
+          const saved = localStorage.getItem('marrso-appearance');
+          if (saved === 'light' || saved === 'dark') preference = saved;
+        } catch {
+          // Storage may be unavailable; use the system appearance.
+        }
+        const dark =
+          preference === 'dark' ||
+          (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.dataset.appearance = preference;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', dark ? '#0a0d0c' : '#fcfcfa');
+      })();
+    </script>
     <script src="tracking-config.js"></script>
     <link rel="icon" type="image/svg+xml" href="/logos/favicon-marrso.svg" />
   </head>
