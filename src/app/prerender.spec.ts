@@ -27,7 +27,7 @@ describe('Páginas públicas prerenderizadas', () => {
       expect(html).toContain('name="description"');
       const schema = html.match(/<script[^>]*id="marrso-schema"[^>]*>([\s\S]*?)<\/script>/)?.[1];
       expect(schema).toBeTruthy();
-      expect(JSON.parse(schema!)['@graph']).toHaveLength(3);
+      expect(JSON.parse(schema!)['@graph']).toHaveLength(route ? 4 : 3);
       expect(html).not.toContain('Congratulations');
     });
   }
@@ -40,5 +40,6 @@ describe('Páginas públicas prerenderizadas', () => {
         ).match(/<title>(.*?)<\/title>/)?.[1],
     );
     expect(new Set(titles).size).toBe(routes.length);
+    for (const title of titles) expect(title).toContain(' — MARRSO');
   });
 });
