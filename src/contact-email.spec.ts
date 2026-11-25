@@ -14,8 +14,8 @@ describe('contactEmailContent', () => {
     expect(content.text).toContain('Empresa: No indicada');
     expect(content.text).toContain('Primera línea\n<img src=x onerror=alert(1)>');
     expect(content.html).toContain('mailto:ana%40example.com');
-    expect(content.html).toContain('cid:marrso-logo-white');
-    expect(content.html).toContain('cid:marrso-logo-black');
+    expect(content.html).toContain('https://marrso.com/logos/email/logo-marrso-white.png');
+    expect(content.html).toContain('https://marrso.com/logos/email/logo-marrso-black.png');
     expect(content.html).toContain('Primera línea<br>&lt;img');
     expect(content.html).not.toContain('<script>');
     expect(content.html).not.toContain('<img src=x');

@@ -2,7 +2,7 @@
 
 Terraform administra la identidad SES con Easy DKIM, MAIL FROM propio, el conjunto transaccional, eventos de entrega en SNS, alarmas de reputación y un usuario IAM de envío limitado. El estado se guarda en S3 con bloqueo nativo. No se generan claves de acceso en Terraform para evitar secretos en el estado.
 
-Los tres CNAME DKIM, el MX y el TXT SPF de `bounce.marrso.com`, y el DMARC del dominio ya existían en Cloudflare y están administrados por un estado Terraform distinto. Los tokens DKIM actuales coinciden con esos CNAME. Este módulo no modifica DNS para evitar dos estados propietarios de los mismos registros. Si cambian los tokens o se traslada la propiedad de DNS, actualizar el estado propietario antes de enviar correo.
+Los tres CNAME DKIM, el MX y el TXT SPF de `bounce.marrso.com`, y el DMARC del dominio se publican en Cloudflare fuera de este módulo. Los cinco registros de SES se repusieron en la zona el 25 de noviembre de 2026 tras detectar que faltaban. Este módulo no modifica DNS para evitar dos estados propietarios de los mismos registros. Si cambian los tokens o se traslada la propiedad de DNS, actualizar la zona y su estado propietario antes de enviar correo.
 
 ## Antes de aplicar
 
