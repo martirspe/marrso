@@ -2,7 +2,7 @@
 
 ## Dirección editorial
 
-Público: organizaciones que necesitan desarrollar software, integrar herramientas o aplicar IA a una operación concreta. Mensaje central: ingeniería adaptada al negocio, con contexto y alcance claros. Evidencia: trayectoria desde 2019 y capacidades documentadas en el perfil comercial de cotizador. Se evita presentar productos propios como clientes o demos como resultados reales.
+Público: organizaciones que necesitan desarrollar software, integrar herramientas o aplicar IA a una operación concreta. Mensaje central: ingeniería adaptada al negocio, con contexto y alcance claros. Evidencia: trayectoria desde 2012 y capacidades documentadas en el perfil comercial de cotizador. Se evita presentar productos propios como clientes o demos como resultados reales.
 
 Fuentes: perfil comercial y guía de descubrimiento de MARRSO; comportamiento actual del código del sitio.
 
@@ -13,7 +13,7 @@ Fuentes: perfil comercial y guía de descubrimiento de MARRSO; comportamiento ac
 | Inicio                   | Hero, argumentos, servicios, metodología, FAQ y CTA: reemplazados mensajes abstractos por necesidades y acciones concretas. FAQ ampliada con presupuesto y requisitos iniciales.                                                      |
 | Ecosistema               | Productos, demos y disponibilidad revisados. Beneficios y estado de cada producto expresados con mayor claridad, sin presentar demostraciones como resultados de clientes. |
 | Servicios                | Oferta y beneficios vinculados a operación e información del negocio; términos técnicos explicados cuando dificultaban la comprensión.                                                                                                |
-| Nosotros                 | Incorporada trayectoria desde 2019 según perfil comercial; preservados principios sin inventar cifras ni certificaciones.                                                                                                             |
+| Nosotros                 | Incorporada trayectoria desde 2012 según perfil comercial; preservados principios sin inventar cifras ni certificaciones.                                                                                                             |
 | Proyectos                | Presentación como productos y casos de uso propios, sin atribuir entregas o resultados de clientes.                                                                                                                                   |
 | Contacto                 | Titular, introducción, campos y CTA revisados. El formulario ahora envía la consulta mediante Amazon SES; los mensajes de error y confirmación corresponden a ese flujo. |
 | Privacidad y términos    | Revisado el texto sobre tratamiento de datos del formulario. Estas páginas no constituyen una revisión legal completa. |

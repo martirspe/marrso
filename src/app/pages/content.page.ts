@@ -24,7 +24,7 @@ const CONTENT = {
     label: 'Estudio',
     eyebrow: 'EL ESTUDIO',
     title: 'Experiencia que conecta negocio y tecnología.',
-    lede: 'Somos un estudio peruano de software e IA aplicada con trayectoria desde 2019. Evolucionamos del desarrollo web y el comercio electrónico hacia plataformas empresariales, automatización y cloud.',
+    lede: 'Somos un estudio peruano de software e IA aplicada con trayectoria desde 2012. Evolucionamos del desarrollo web y el comercio electrónico hacia plataformas empresariales, automatización y cloud.',
   },
   proyectos: {
     label: 'Proyectos',
@@ -45,7 +45,12 @@ const CONTENT = {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <app-site-shell
-    ><main tabindex="-1" id="contenido" [class.services-page]="page() === 'servicios'">
+    ><main
+      tabindex="-1"
+      id="contenido"
+      [class.services-page]="page() === 'servicios'"
+      [class.projects-page]="page() === 'proyectos'"
+    >
       <section class="page-hero">
         <div class="site-container">
           <nav class="breadcrumb" aria-label="Ruta de navegación">
@@ -68,6 +73,14 @@ const CONTENT = {
               >
             </div>
           }
+          @if (page() === 'proyectos') {
+            <div class="projects-actions">
+              <a class="button primary" routerLink="/proyectos" fragment="productos"
+                >Explorar productos</a
+              >
+              <a class="text-link" routerLink="/contacto">Hablemos de tu proyecto</a>
+            </div>
+          }
         </div>
       </section>
       @if (page() === 'servicios') {
@@ -78,12 +91,12 @@ const CONTENT = {
         </nav>
       }
       @if (page() === 'ecosistema' || page() === 'proyectos') {
-        <section class="section">
+        <section class="section projects-catalog" id="productos" aria-labelledby="products-title">
           <div class="site-container">
             <div class="section-head">
               <div>
                 <p class="eyebrow">DESDE EL ESTUDIO</p>
-                <h2 class="h2">
+                <h2 class="h2" id="products-title">
                   {{
                     page() === 'proyectos'
                       ? 'Explora nuestros productos y sus casos de uso.'
@@ -100,17 +113,19 @@ const CONTENT = {
           </div>
         </section>
         @if (page() === 'proyectos') {
-          <section class="section">
+          <section class="section projects-next" aria-labelledby="projects-next-title">
             <div class="site-container approach">
               <p class="eyebrow">EL SIGUIENTE PROYECTO</p>
               <div>
-                <h2 class="h2">Tu contexto define<br />la solución.</h2>
+                <h2 class="h2" id="projects-next-title">Tu contexto define<br />la solución.</h2>
                 <p class="lede">
                   Una plataforma empresarial. Un sistema de atención con IA. La integración de una
                   operación fragmentada. Partimos del problema para diseñar una arquitectura que
                   tenga sentido.
                 </p>
-                <a class="text-link" routerLink="/servicios">Explorar nuestras capacidades</a>
+                <div class="projects-next-actions">
+                  <a class="text-link" routerLink="/servicios">Explorar nuestras capacidades</a>
+                </div>
               </div>
             </div>
           </section>
@@ -247,7 +262,7 @@ const CONTENT = {
     }
     .page-hero h1 {
       max-width: 22ch;
-      font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+      font-size: clamp(2.75rem, 4.5vw, 4.5rem);
       line-height: 1.08;
       letter-spacing: -0.05em;
       text-wrap: balance;

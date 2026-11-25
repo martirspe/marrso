@@ -54,7 +54,7 @@
   border-color: var(--input);
 }
 .product h3 {
-  font-size: 2rem;
+  font-size: var(--type-card-heading);
   font-weight: 550;
   letter-spacing: -0.05em;
   margin-bottom: 12px;

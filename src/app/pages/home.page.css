@@ -108,7 +108,7 @@
   height: 28px;
 }
 .project-card h3 {
-  font-size: 2rem;
+  font-size: var(--type-card-heading);
   font-weight: 550;
   letter-spacing: -0.04em;
   margin: 28px 0 12px;
@@ -162,7 +162,7 @@
   margin-bottom: 24px;
 }
 .product-highlight h3 {
-  font-size: 1.75rem;
+  font-size: var(--type-card-heading);
   font-weight: 550;
   margin: 12px 0;
   letter-spacing: -0.035em;

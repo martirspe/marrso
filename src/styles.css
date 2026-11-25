@@ -57,6 +57,10 @@
   --section-space: clamp(4.5rem, 8vw, 8rem);
   --font-sans: 'Geist Variable', Arial, sans-serif;
   --font-mono: 'Geist Mono Variable', monospace;
+  --type-display: clamp(2.75rem, 6.2vw, 6rem);
+  --type-heading: clamp(2rem, 4vw, 3.75rem);
+  --type-card-heading: clamp(1.5rem, 2.4vw, 2rem);
+  --type-lede: clamp(1rem, 1.3vw, 1.125rem);
 }
 .dark {
   color-scheme: dark;
@@ -102,8 +106,8 @@
   --shadow-panel: var(--shadow-panel);
   --shadow-float: var(--shadow-float);
   --radius-panel: var(--radius);
-  --text-display: clamp(3rem, 6.2vw, 6rem);
-  --text-heading: clamp(2rem, 4vw, 3.75rem);
+  --text-display: var(--type-display);
+  --text-heading: var(--type-heading);
   --spacing-section: var(--section-space);
 }
 @layer base {
@@ -200,7 +204,8 @@
     margin: 18px 0 24px;
   }
   .lede {
-    @apply text-muted-foreground text-base leading-relaxed;
+    @apply text-muted-foreground leading-relaxed;
+    font-size: var(--type-lede);
     max-width: 620px;
   }
   .lede + .lede {

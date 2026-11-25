@@ -9,7 +9,7 @@ const descriptions: Record<string, string> = {
   '/servicios':
     'Desarrollo de software, inteligencia artificial, automatización, cloud, diseño web y branding. Definimos soluciones según las necesidades de tu negocio.',
   '/nosotros':
-    'Conoce MARRSO, estudio peruano de software e IA aplicada. Desde 2019 desarrollamos plataformas, automatización y soluciones cloud.',
+    'Conoce MARRSO, estudio peruano de software e IA aplicada. Desde 2012 desarrollamos plataformas, automatización y soluciones cloud.',
   '/proyectos':
     'Conoce los productos y proyectos de MARRSO en software, inteligencia artificial e infraestructura cloud, y descubre cómo abordamos cada solución.',
   '/contacto':

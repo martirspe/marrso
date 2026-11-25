@@ -140,7 +140,7 @@ import { TrackingService } from '../shared/tracking.service';
       align-items: start;
     }
     .contact-intro .display {
-      font-size: clamp(50px, 5.5vw, 78px);
+      font-size: clamp(2.75rem, 5.5vw, 4.875rem);
     }
     .contact-intro h1 span {
       color: var(--lime);
@@ -286,7 +286,7 @@ import { TrackingService } from '../shared/tracking.service';
         padding: 55px 0;
       }
       .contact-intro .display {
-        font-size: clamp(46px, 8vw, 70px);
+        font-size: clamp(2.75rem, 8vw, 4.375rem);
       }
     }
     @media (max-width: 450px) {
