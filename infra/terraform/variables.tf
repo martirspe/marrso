@@ -16,3 +16,8 @@ variable "from_email" {
 variable "alerts_email" {
   type = string
 }
+
+variable "cloudflare_zone_id" {
+  description = "ID de la zona marrso.com en Cloudflare. El token se entrega por CLOUDFLARE_API_TOKEN, nunca por tfvars."
+  type        = string
+}

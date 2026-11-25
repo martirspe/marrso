@@ -1,19 +1,20 @@
 # SES de MARRSO en producción
 
-Terraform administra la identidad SES con Easy DKIM, MAIL FROM propio, el conjunto transaccional, eventos de entrega en SNS, alarmas de reputación y un usuario IAM de envío limitado. El estado se guarda en S3 con bloqueo nativo. No se generan claves de acceso en Terraform para evitar secretos en el estado.
+Terraform administra la identidad SES con Easy DKIM, MAIL FROM propio, sus cinco registros DNS en Cloudflare, el conjunto transaccional, eventos de entrega en SNS, alarmas de reputación y un usuario IAM de envío limitado. El estado se guarda en S3 con bloqueo nativo. No se generan claves de acceso en Terraform para evitar secretos en el estado.
 
-Los tres CNAME DKIM, el MX y el TXT SPF de `bounce.marrso.com`, y el DMARC del dominio se publican en Cloudflare fuera de este módulo. Los cinco registros de SES se repusieron en la zona el 25 de noviembre de 2026 tras detectar que faltaban. Este módulo no modifica DNS para evitar dos estados propietarios de los mismos registros. Si cambian los tokens o se traslada la propiedad de DNS, actualizar la zona y su estado propietario antes de enviar correo.
+Los tres CNAME DKIM y los registros MX y TXT SPF de `bounce.marrso.com` pertenecen a este estado. Fueron importados desde Cloudflare el 25 de noviembre de 2026 para conservar sus identificadores y evitar duplicados. El registro DMARC y los registros de correo entrante del dominio no forman parte de este módulo.
 
 ## Antes de aplicar
 
-1. Verificar en el estado propietario de DNS que siguen publicados los tres CNAME DKIM, MX y SPF de MAIL FROM, y el único registro DMARC del dominio (`p=reject` al momento del despliegue).
+1. Verificar que la zona `marrso.com` está activa en Cloudflare y que los cinco registros SES ya importados figuran en este estado (`terraform state list`). El token de API debe tener permisos `Zone:Read` y `DNS:Edit` limitados a esa zona. Entregarlo mediante `CLOUDFLARE_API_TOKEN`; nunca guardarlo en `tfvars`, el estado ni Git.
 2. Usar el perfil AWS `ops` en la cuenta `496620607923`, con permisos de SES, IAM, SNS, CloudWatch y S3.
 3. Usar el bucket S3 privado y versionado `marrso-tfstate-496620607923` para el estado. Rellenar `backend.hcl` desde el ejemplo. El bucket debe existir antes de `terraform init`.
-4. Copiar `prod.tfvars.example` a `prod.tfvars` y completar el correo de alertas.
+4. Copiar `prod.tfvars.example` a `prod.tfvars` y completar el correo de alertas y el ID de zona de Cloudflare. `prod.tfvars` está ignorado por Git.
 
 ```powershell
 cd infra/terraform
 $env:AWS_PROFILE = "ops"
+$env:CLOUDFLARE_API_TOKEN = (Get-Content cloudflare.token -Raw).Trim() # archivo local ignorado por Git
 terraform init '-backend-config=backend.hcl'
 terraform fmt -check
 terraform validate
@@ -21,7 +22,7 @@ terraform plan '-var-file=prod.tfvars' '-out=prod.tfplan'
 terraform apply prod.tfplan
 ```
 
-Si ya existen recursos AWS con esos nombres, importarlos al estado antes de aplicar.
+Si se reconstruye el estado, importar primero los recursos existentes de AWS y los cinco registros DNS usando `terraform import -var-file=prod.tfvars <dirección> <zone_id>/<record_id>`. Asociar cada CNAME al índice indicado por el orden de `dkim_signing_attributes.tokens` de la identidad SES. Comprobar que `terraform plan` muestra `No changes` antes de aplicar. No crear registros DNS duplicados.
 
 ## Después de aplicar
 

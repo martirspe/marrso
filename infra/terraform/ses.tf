@@ -14,7 +14,7 @@ resource "aws_sesv2_email_identity" "domain" {
 
 resource "aws_sesv2_email_identity_mail_from_attributes" "domain" {
   email_identity         = aws_sesv2_email_identity.domain.email_identity
-  mail_from_domain       = "bounce.${var.email_domain}"
+  mail_from_domain       = local.mail_from_domain
   behavior_on_mx_failure = "REJECT_MESSAGE"
 }
 
